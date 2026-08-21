@@ -1,0 +1,18 @@
+=== PHASE 13 Endpoint Validation ===
+[OK] app.main imports successfully
+[OK] /health exists in OpenAPI
+[OK] /docs is FastAPI built-in (Swagger UI)
+[OK] /api/intent exists in OpenAPI
+[OK] /api/search exists in OpenAPI
+[OK] /api/llm/interpret exists in OpenAPI
+[OK] /api/ws/stt exists in app.routes
+[OK] /api/ws/stt is a WebSocketRoute
+[OK] NEXT -> no LLM
+[OK] PREVIOUS -> no LLM
+[OK] SHOW_INSTALL -> no LLM
+[OK] Clear SEARCH -> no LLM
+[OK] Ambiguous SEARCH -> LLM fallback
+[OK] Unknown/below-threshold -> LLM fallback
+[OK] LLM service instantiated
+
+=== ALL PHASE 13 VALIDATION CHECKS PASSED ===

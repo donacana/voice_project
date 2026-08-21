@@ -1,0 +1,102 @@
+.main-layout {
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+  background: linear-gradient(135deg, #1a1a2e 0%, #16213e 100%);
+  color: #e0e0e0;
+}
+
+.layout-header {
+  background: rgba(0, 0, 0, 0.5);
+  border-bottom: 2px solid #646cff;
+  padding: 2rem;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  box-shadow: 0 4px 12px rgba(100, 108, 255, 0.2);
+}
+
+.header-content h1 {
+  margin: 0;
+  font-size: 2.5rem;
+  color: #646cff;
+  font-weight: 700;
+}
+
+.header-content .subtitle {
+  margin: 0.5rem 0 0 0;
+  font-size: 1rem;
+  color: #aaa;
+  font-weight: 300;
+}
+
+.header-status {
+  display: flex;
+  gap: 1rem;
+  align-items: center;
+}
+
+.status-badge {
+  padding: 0.5rem 1rem;
+  background: #4caf50;
+  color: white;
+  border-radius: 20px;
+  font-size: 0.9rem;
+  font-weight: 600;
+  box-shadow: 0 2px 8px rgba(76, 175, 80, 0.3);
+}
+
+/* Mobile Remote status indicator (small, unobtrusive) */
+.mobile-remote-indicator {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.4rem 0.9rem;
+  border-radius: 20px;
+  font-size: 0.85rem;
+  font-weight: 600;
+  background: rgba(40, 40, 50, 0.8);
+  border: 1px solid #444;
+}
+
+.mobile-remote-dot {
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  flex-shrink: 0;
+}
+
+.mobile-remote-indicator.connected .mobile-remote-dot {
+  background: #4caf50;
+  box-shadow: 0 0 6px rgba(76, 175, 80, 0.6);
+}
+
+.mobile-remote-indicator.connected .mobile-remote-text {
+  color: #4caf50;
+}
+
+.mobile-remote-indicator.offline .mobile-remote-dot {
+  background: #9ca3af;
+}
+
+.mobile-remote-indicator.offline .mobile-remote-text {
+  color: #9ca3af;
+}
+
+.layout-main {
+  flex: 1;
+  padding: 2rem;
+  max-width: 1200px;
+  margin: 0 auto;
+  width: 100%;
+  overflow-y: auto;
+}
+
+.layout-footer {
+  background: rgba(0, 0, 0, 0.5);
+  border-top: 1px solid #444;
+  padding: 1.5rem;
+  text-align: center;
+  color: #888;
+  font-size: 0.9rem;
+}

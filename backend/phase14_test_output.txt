@@ -1,0 +1,14 @@
+=== PHASE 14 Validation ===
+[OK] PHASE 14 action resolution imports
+[OK] TEST A: NEXT -> NEXT action
+[OK] TEST A: NEXT -> Ant Design demo
+[OK] TEST B: PREVIOUS -> Material UI demo
+[OK] TEST C: SHOW_INSTALL keeps material-ui, opens lecture-content
+[OK] TEST D: Radix UI º¸¿©Áà -> radix-ui
+[OK] TEST E: clear SEARCH -> SEARCH_RESULT, no LLM
+[OK] TEST F: ambiguous SEARCH routes to LLM fallback (live call requires OpenAI/DB - infra)
+[OK] TEST G: HOME -> intro (library preserved)
+[OK] TEST H: 3x rapid NEXT -> shadcn (sequential, no stale overwrite)
+[OK] detect_library covers all 10 library keys
+
+=== ALL PHASE 14 VALIDATION CHECKS PASSED (non-DB) ===

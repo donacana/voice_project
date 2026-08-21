@@ -1,0 +1,1061 @@
+#root {
+  width: 100%;
+  height: 100%;
+  margin: 0;
+  padding: 0;
+}
+
+/* Placeholder screens */
+.placeholder-screen {
+  text-align: center;
+  padding: 3rem;
+  background: rgba(40, 40, 50, 0.8);
+  border-radius: 12px;
+  border: 1px solid #444;
+}
+
+.placeholder-screen h2 {
+  color: #646cff;
+  margin-top: 0;
+}
+
+.placeholder-screen p {
+  color: #aaa;
+  margin-bottom: 1.5rem;
+}
+
+.placeholder-screen button {
+  padding: 0.7rem 1.5rem;
+  font-size: 1rem;
+  font-weight: 600;
+  color: white;
+  background: linear-gradient(135deg, #646cff, #535bf2);
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  box-shadow: 0 4px 12px rgba(100, 108, 255, 0.3);
+}
+
+.placeholder-screen button:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 6px 16px rgba(100, 108, 255, 0.4);
+}
+
+.placeholder-screen button:active {
+  transform: translateY(0);
+}
+
+/* Overview screen */
+.overview-screen {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 2rem;
+}
+
+.overview-screen h2 {
+  color: #646cff;
+  margin: 0;
+  font-size: 2rem;
+}
+
+.library-selector {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+  gap: 1rem;
+  width: 100%;
+  max-width: 1000px;
+}
+
+.library-button {
+  padding: 1.5rem;
+  font-size: 1rem;
+  font-weight: 600;
+  color: white;
+  background: linear-gradient(135deg, #646cff, #535bf2);
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  box-shadow: 0 4px 12px rgba(100, 108, 255, 0.2);
+}
+
+.library-button:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 6px 20px rgba(100, 108, 255, 0.4);
+}
+
+.library-button:active {
+  transform: translateY(-2px);
+}
+
+.back-button {
+  padding: 0.7rem 1.5rem;
+  font-size: 1rem;
+  font-weight: 600;
+  color: white;
+  background: #666;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.back-button:hover {
+  background: #777;
+  transform: translateY(-2px);
+}
+
+/* Demo screen */
+.demo-screen {
+  display: flex;
+  flex-direction: column;
+  gap: 2rem;
+  width: 100%;
+  overflow-x: hidden;
+}
+
+.demo-controls {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 2rem;
+  padding: 1.5rem;
+  background: rgba(40, 40, 50, 0.8);
+  border: 1px solid #444;
+  border-radius: 8px;
+}
+
+.demo-controls button {
+  padding: 0.7rem 1.5rem;
+  font-size: 1rem;
+  font-weight: 600;
+  color: white;
+  background: #646cff;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.demo-controls button:hover:not(:disabled) {
+  background: #535bf2;
+  transform: translateY(-2px);
+}
+
+.demo-controls button:disabled {
+  background: #444;
+  cursor: not-allowed;
+  opacity: 0.5;
+}
+
+.demo-info {
+  color: #646cff;
+  font-weight: 600;
+  font-size: 1.1rem;
+  min-width: 150px;
+  text-align: center;
+}
+
+.demo-actions {
+  display: flex;
+  justify-content: center;
+  gap: 1rem;
+  padding: 1rem;
+}
+
+.demo-actions button {
+  padding: 0.7rem 1.5rem;
+  font-size: 1rem;
+  font-weight: 600;
+  color: white;
+  background: #666;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.demo-actions button:hover {
+  background: #777;
+  transform: translateY(-2px);
+}
+
+/* ========================================
+   PHASE 4: Library Overview Component
+   ======================================== */
+
+.library-overview {
+  display: flex;
+  flex-direction: column;
+  gap: 3rem;
+  width: 100%;
+}
+
+.overview-header {
+  text-align: center;
+  padding: 2rem;
+  background: rgba(40, 40, 50, 0.8);
+  border-radius: 12px;
+  border: 1px solid #444;
+}
+
+.overview-header h1 {
+  color: #646cff;
+  margin: 0 0 0.5rem 0;
+  font-size: 2.5rem;
+}
+
+.overview-subtitle {
+  color: #aaa;
+  margin: 0;
+  font-size: 1.1rem;
+}
+
+.library-categories {
+  display: flex;
+  flex-direction: column;
+  gap: 2.5rem;
+}
+
+.library-category {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+}
+
+.category-title {
+  color: #646cff;
+  font-size: 1.4rem;
+  margin: 0;
+  padding: 0.5rem 0;
+  border-bottom: 2px solid #646cff;
+}
+
+.library-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
+  gap: 1rem;
+}
+
+.library-card {
+  border-radius: 8px;
+  overflow: hidden;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
+  transition: transform 0.3s ease;
+}
+
+.library-card:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 4px 12px rgba(100, 108, 255, 0.3);
+}
+
+.library-card-button {
+  width: 100%;
+  padding: 2rem 1rem;
+  background: linear-gradient(135deg, #646cff, #535bf2);
+  border: none;
+  color: white;
+  cursor: pointer;
+  font-weight: 600;
+  font-size: 1rem;
+  text-align: center;
+  transition: all 0.3s ease;
+}
+
+.library-card-button:hover {
+  background: linear-gradient(135deg, #535bf2, #3d4fc8);
+  transform: scale(1.05);
+}
+
+.library-card-name {
+  display: block;
+  line-height: 1.4;
+}
+
+.overview-info {
+  text-align: center;
+  padding: 1.5rem;
+  background: rgba(40, 40, 50, 0.6);
+  border-radius: 8px;
+  border: 1px solid #444;
+}
+
+.info-text {
+  color: #aaa;
+  margin: 0;
+  font-size: 0.95rem;
+}
+
+/* ========================================
+   Demo Screen Layout
+   ======================================== */
+
+.demo-container {
+  display: flex;
+  flex-direction: column;
+  gap: 2rem;
+  align-items: stretch;
+}
+
+.demo-main {
+  width: 100%;
+  min-width: 0;
+  border-radius: 8px;
+  border: 1px solid #444;
+  overflow: hidden;
+  min-height: 400px;
+}
+
+/* ========================================
+   PHASE 4: Lecture Content Panel
+   ======================================== */
+
+.lecture-content-panel {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+  background: rgba(40, 40, 50, 0.8);
+  border: 1px solid #444;
+  border-radius: 8px;
+  padding: 2rem;
+}
+
+.lecture-header {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+  padding-bottom: 1.5rem;
+  border-bottom: 2px solid #444;
+}
+
+.lecture-library-badge {
+  display: inline-flex;
+  align-items: center;
+  background: rgba(100, 108, 255, 0.1);
+  border: 1px solid #646cff;
+  border-radius: 6px;
+  padding: 0.5rem 1rem;
+  width: fit-content;
+}
+
+.library-name {
+  color: #646cff;
+  font-weight: 600;
+  font-size: 0.9rem;
+}
+
+.lecture-title {
+  color: #e5e7eb;
+  margin: 0;
+  font-size: 1.6rem;
+  line-height: 1.3;
+}
+
+.lecture-content-body {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+  min-height: 300px;
+}
+
+.lecture-text {
+  color: #d1d5db;
+  line-height: 1.8;
+  font-size: 1.05rem;
+}
+
+.lecture-text p {
+  margin: 0;
+}
+
+.lecture-code-block {
+  background: rgba(0, 0, 0, 0.4);
+  border: 1px solid #444;
+  border-radius: 6px;
+  padding: 1rem;
+  overflow-x: auto;
+}
+
+.lecture-code-block pre {
+  margin: 0;
+  color: #10b981;
+  font-family: 'Courier New', monospace;
+  font-size: 0.85rem;
+  line-height: 1.6;
+}
+
+.lecture-empty {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #9ca3af;
+  font-size: 1rem;
+}
+
+.lecture-content-types {
+  padding-top: 1.5rem;
+  border-top: 2px solid #444;
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.content-type-label {
+  color: #9ca3af;
+  margin: 0;
+  font-size: 0.9rem;
+  font-weight: 600;
+}
+
+.content-type-buttons {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.75rem;
+}
+
+.content-type-button {
+  padding: 0.6rem 1.2rem;
+  background: #444;
+  border: 1px solid #555;
+  color: #d1d5db;
+  border-radius: 6px;
+  cursor: pointer;
+  font-weight: 600;
+  font-size: 0.85rem;
+  transition: all 0.3s ease;
+}
+
+.content-type-button:hover {
+  background: #555;
+  border-color: #666;
+}
+
+.content-type-button.active {
+  background: #646cff;
+  border-color: #646cff;
+  color: white;
+}
+
+/* ========================================
+   PHASE 4: Lecture Screen
+   ======================================== */
+
+.lecture-screen {
+  display: flex;
+  flex-direction: column;
+  gap: 2rem;
+  width: 100%;
+}
+
+.lecture-navigation {
+  display: flex;
+  justify-content: center;
+  gap: 1rem;
+  padding: 1rem;
+}
+
+.lecture-navigation button {
+  padding: 0.7rem 1.5rem;
+  background: #646cff;
+  border: none;
+  color: white;
+  border-radius: 6px;
+  cursor: pointer;
+  font-weight: 600;
+  transition: all 0.3s ease;
+}
+
+.lecture-navigation button:hover:not(:disabled) {
+  background: #535bf2;
+  transform: translateY(-2px);
+}
+
+.lecture-navigation button:disabled {
+  background: #444;
+  cursor: not-allowed;
+  opacity: 0.5;
+}
+
+.lecture-actions {
+  display: flex;
+  justify-content: center;
+  gap: 1rem;
+  padding: 1rem;
+  flex-wrap: wrap;
+}
+
+.lecture-actions button {
+  padding: 0.7rem 1.5rem;
+  font-size: 1rem;
+  font-weight: 600;
+  color: white;
+  background: #666;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.lecture-actions button:hover {
+  background: #777;
+  transform: translateY(-2px);
+}
+
+/* ========================================
+   FINAL REDESIGN: Lecture / Presentation UI
+   ======================================== */
+
+.lecture-header {
+  text-align: center;
+  padding: 2rem;
+  background: rgba(40, 40, 50, 0.8);
+  border-radius: 12px;
+  border: 1px solid #444;
+}
+
+.lecture-kicker {
+  display: inline-block;
+  color: #646cff;
+  font-weight: 700;
+  font-size: 0.9rem;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  margin-bottom: 0.5rem;
+}
+
+.lecture-header h1 {
+  color: #646cff;
+  margin: 0 0 0.5rem 0;
+  font-size: 2.5rem;
+}
+
+.lecture-subtitle {
+  color: #aaa;
+  margin: 0;
+  font-size: 1.1rem;
+  line-height: 1.6;
+}
+
+/* Category Overview Grid */
+.category-overview-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: 1.5rem;
+}
+
+.category-overview-card {
+  background: rgba(40, 40, 50, 0.8);
+  border: 1px solid #444;
+  border-radius: 12px;
+  padding: 1.5rem;
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+  transition: all 0.3s ease;
+}
+
+.category-overview-card:hover {
+  border-color: #646cff;
+  box-shadow: 0 4px 12px rgba(100, 108, 255, 0.15);
+}
+
+.category-overview-header h2 {
+  color: #646cff;
+  margin: 0 0 0.5rem 0;
+  font-size: 1.4rem;
+}
+
+.category-why {
+  color: #aaa;
+  margin: 0;
+  font-size: 0.95rem;
+  line-height: 1.5;
+}
+
+.category-overview-libraries {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+}
+
+.category-library-chip {
+  padding: 0.5rem 1rem;
+  background: rgba(100, 108, 255, 0.1);
+  border: 1px solid #646cff;
+  color: #e0e0e0;
+  border-radius: 20px;
+  cursor: pointer;
+  font-weight: 600;
+  font-size: 0.9rem;
+  transition: all 0.3s ease;
+}
+
+.category-library-chip:hover {
+  background: rgba(100, 108, 255, 0.2);
+  transform: translateY(-2px);
+}
+
+.category-lecture-btn {
+  margin-top: auto;
+  padding: 0.7rem 1rem;
+  background: #646cff;
+  border: none;
+  color: white;
+  border-radius: 6px;
+  cursor: pointer;
+  font-weight: 600;
+  transition: all 0.3s ease;
+}
+
+.category-lecture-btn:hover {
+  background: #535bf2;
+  transform: translateY(-2px);
+}
+
+/* Category Lecture Comparison */
+.category-lecture-screen {
+  display: flex;
+  flex-direction: column;
+  gap: 2rem;
+  width: 100%;
+}
+
+.category-comparison-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  gap: 1.5rem;
+}
+
+.library-comparison-card {
+  background: rgba(40, 40, 50, 0.8);
+  border: 1px solid #444;
+  border-radius: 12px;
+  padding: 1.5rem;
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.comparison-card-header h2 {
+  color: #646cff;
+  margin: 0 0 0.5rem 0;
+  font-size: 1.5rem;
+}
+
+.comparison-identity {
+  color: #aaa;
+  margin: 0;
+  font-size: 0.95rem;
+  line-height: 1.5;
+}
+
+.comparison-teaching h3 {
+  color: #e0e0e0;
+  margin: 0 0 0.75rem 0;
+  font-size: 1.1rem;
+}
+
+.comparison-teaching ul {
+  margin: 0 0 1rem 0;
+  padding-left: 1.2rem;
+  color: #bbb;
+  font-size: 0.9rem;
+  line-height: 1.6;
+}
+
+.comparison-example {
+  background: rgba(0, 0, 0, 0.3);
+  border: 1px solid #444;
+  border-radius: 6px;
+  padding: 0.75rem;
+}
+
+.example-label {
+  display: block;
+  color: #646cff;
+  font-weight: 700;
+  font-size: 0.8rem;
+  text-transform: uppercase;
+  margin-bottom: 0.25rem;
+}
+
+.comparison-example p {
+  margin: 0;
+  color: #aaa;
+  font-size: 0.9rem;
+  line-height: 1.5;
+}
+
+.comparison-facts {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.fact-row {
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem;
+}
+
+.fact-label {
+  color: #646cff;
+  font-weight: 700;
+  font-size: 0.8rem;
+  text-transform: uppercase;
+}
+
+.fact-value {
+  color: #bbb;
+  font-size: 0.9rem;
+  line-height: 1.4;
+}
+
+.comparison-actions {
+  display: flex;
+  gap: 0.75rem;
+  margin-top: auto;
+}
+
+.action-btn {
+  padding: 0.6rem 1.2rem;
+  background: #666;
+  border: none;
+  color: white;
+  border-radius: 6px;
+  cursor: pointer;
+  font-weight: 600;
+  font-size: 0.9rem;
+  transition: all 0.3s ease;
+}
+
+.action-btn:hover {
+  background: #777;
+  transform: translateY(-2px);
+}
+
+.action-btn.primary {
+  background: #646cff;
+}
+
+.action-btn.primary:hover {
+  background: #535bf2;
+}
+
+/* Decision Guide */
+.decision-guide-screen {
+  display: flex;
+  flex-direction: column;
+  gap: 2rem;
+  width: 100%;
+}
+
+.decision-branches {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+}
+
+.decision-branch {
+  background: rgba(40, 40, 50, 0.8);
+  border: 1px solid #444;
+  border-radius: 12px;
+  padding: 1.5rem;
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.decision-question {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+}
+
+.branch-number {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 2.5rem;
+  height: 2.5rem;
+  background: #646cff;
+  color: white;
+  border-radius: 50%;
+  font-weight: 700;
+  font-size: 1.1rem;
+  flex-shrink: 0;
+}
+
+.decision-question h2 {
+  color: #e0e0e0;
+  margin: 0;
+  font-size: 1.2rem;
+}
+
+.branch-answer {
+  color: #646cff;
+  margin: 0;
+  font-weight: 600;
+  font-size: 1rem;
+}
+
+.branch-distinctions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.75rem;
+}
+
+.distinction-chip {
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem;
+  padding: 0.75rem 1.25rem;
+  background: rgba(100, 108, 255, 0.1);
+  border: 1px solid #646cff;
+  color: #e0e0e0;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  text-align: left;
+}
+
+.distinction-chip:hover {
+  background: rgba(100, 108, 255, 0.2);
+  transform: translateY(-2px);
+}
+
+.distinction-label {
+  color: #aaa;
+  font-size: 0.8rem;
+}
+
+.distinction-value {
+  color: #646cff;
+  font-weight: 700;
+  font-size: 0.95rem;
+}
+
+/* Closing Screen */
+.closing-screen {
+  display: flex;
+  flex-direction: column;
+  gap: 2rem;
+  width: 100%;
+}
+
+.closing-summary {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: 1.5rem;
+}
+
+.closing-card {
+  background: rgba(40, 40, 50, 0.8);
+  border: 1px solid #444;
+  border-radius: 12px;
+  padding: 1.5rem;
+}
+
+.closing-card h2 {
+  color: #646cff;
+  margin: 0 0 1rem 0;
+  font-size: 1.3rem;
+}
+
+.closing-card ul {
+  margin: 0;
+  padding-left: 1.2rem;
+  color: #bbb;
+  font-size: 0.95rem;
+  line-height: 1.8;
+}
+
+.closing-actions {
+  display: flex;
+  justify-content: center;
+  padding: 1rem;
+}
+
+/* Mantine Lecture Demo */
+.lecture-demo {
+  padding: 2rem;
+}
+
+.demo-title {
+  color: #646cff;
+  margin: 0 0 0.5rem 0;
+  font-size: 2rem;
+}
+
+.demo-identity {
+  color: #aaa;
+  margin: 0 0 1.5rem 0;
+  font-size: 1.1rem;
+}
+
+.mantine-ecosystem {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 1rem;
+  margin-bottom: 1.5rem;
+  flex-wrap: wrap;
+}
+
+.ecosystem-block {
+  background: rgba(100, 108, 255, 0.1);
+  border: 1px solid #646cff;
+  border-radius: 12px;
+  padding: 1.5rem;
+  text-align: center;
+  min-width: 140px;
+}
+
+.ecosystem-icon {
+  font-size: 2rem;
+  display: block;
+  margin-bottom: 0.5rem;
+}
+
+.ecosystem-block h3 {
+  color: #646cff;
+  margin: 0 0 0.25rem 0;
+  font-size: 1.1rem;
+}
+
+.ecosystem-block p {
+  color: #aaa;
+  margin: 0;
+  font-size: 0.9rem;
+}
+
+.ecosystem-plus {
+  color: #646cff;
+  font-size: 2rem;
+  font-weight: 700;
+}
+
+.demo-facts {
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+  margin-bottom: 1.5rem;
+}
+
+.demo-example {
+  background: rgba(40, 40, 50, 0.8);
+  border: 1px solid #444;
+  border-radius: 12px;
+  padding: 1.5rem;
+  margin-bottom: 1.5rem;
+}
+
+.demo-example-title {
+  color: #646cff;
+  margin: 0 0 1rem 0;
+  font-size: 1.2rem;
+}
+
+.demo-example-flow {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 1rem;
+  flex-wrap: wrap;
+}
+
+.example-step {
+  background: rgba(100, 108, 255, 0.1);
+  border: 1px solid #646cff;
+  border-radius: 10px;
+  padding: 1rem;
+  text-align: center;
+  min-width: 160px;
+}
+
+.example-step-icon {
+  font-size: 1.5rem;
+  display: block;
+  margin-bottom: 0.25rem;
+}
+
+.example-step-label {
+  color: #646cff;
+  font-weight: 700;
+  font-size: 0.9rem;
+  display: block;
+}
+
+.example-step-detail {
+  color: #aaa;
+  font-size: 0.85rem;
+  display: block;
+  margin-top: 0.25rem;
+}
+
+.example-arrow {
+  color: #646cff;
+  font-size: 1.5rem;
+  font-weight: 700;
+  text-align: center;
+  margin-top: 0.5rem;
+}
+
+.example-result {
+  background: rgba(76, 175, 80, 0.1);
+  border: 1px solid #4caf50;
+  border-radius: 10px;
+  padding: 1rem;
+  text-align: center;
+  color: #4caf50;
+  font-weight: 700;
+  font-size: 1.1rem;
+  margin-top: 0.5rem;
+}
+
+.demo-note {
+  background: rgba(0, 0, 0, 0.3);
+  border: 1px solid #444;
+  border-radius: 8px;
+  padding: 1rem;
+}
+
+.demo-note p {
+  margin: 0;
+  color: #aaa;
+  font-size: 0.9rem;
+  line-height: 1.6;
+}
+
+@media (max-width: 768px) {
+  .library-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  .overview-header h1 {
+    font-size: 1.8rem;
+  }
+
+  .lecture-title {
+    font-size: 1.3rem;
+  }
+
+  .lecture-header h1 {
+    font-size: 1.8rem;
+  }
+
+  .category-overview-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .category-comparison-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .closing-summary {
+    grid-template-columns: 1fr;
+  }
+}
