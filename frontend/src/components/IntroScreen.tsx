@@ -53,40 +53,6 @@ export const IntroScreen: React.FC<IntroScreenProps> = ({ onStartClick }) => {
           </div>
         </section>
 
-        <section className="intro-features">
-          <h3>What You Can Do</h3>
-          <div className="features-list">
-            <div className="feature-item">
-              <span className="feature-icon">🎤</span>
-              <div>
-                <strong>Voice Control</strong>
-                <p>Use voice commands to navigate the presentation</p>
-              </div>
-            </div>
-            <div className="feature-item">
-              <span className="feature-icon">📚</span>
-              <div>
-                <strong>Interactive Demos</strong>
-                <p>See each library in action with real components</p>
-              </div>
-            </div>
-            <div className="feature-item">
-              <span className="feature-icon">🔍</span>
-              <div>
-                <strong>Search & Compare</strong>
-                <p>Find libraries by use case or characteristics</p>
-              </div>
-            </div>
-            <div className="feature-item">
-              <span className="feature-icon">📖</span>
-              <div>
-                <strong>Learn Details</strong>
-                <p>Installation, features, and advantages explained</p>
-              </div>
-            </div>
-          </div>
-        </section>
-
         <section className="intro-cta">
           <button className="start-button" onClick={onStartClick}>
             Start Exploring →

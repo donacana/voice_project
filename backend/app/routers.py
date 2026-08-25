@@ -50,6 +50,7 @@ import json
 import logging
 import asyncio
 from fastapi import APIRouter, WebSocket, WebSocketDisconnect
+from starlette.websockets import WebSocketState
 from app.stt_service import (
     get_stt_service,
     initialize_stt_service,
@@ -318,6 +319,56 @@ def detect_library(text: Optional[str]) -> Optional[str]:
     return None
 
 
+def resolve_presentation_shortcut(
+    text: str,
+    confidence: float = 1.0,
+) -> Optional[Dict[str, Any]]:
+    """Resolve explicit screen-navigation phrases before ML/LLM routing.
+
+    The Material UI explanation screen is a presentation-only screen, not
+    lecture content or RAG. Phrases that explicitly ask to show/open that
+    explanation should therefore navigate deterministically.
+    """
+    lowered = (text or "").lower().strip()
+    if detect_library(lowered) != "material-ui":
+        return None
+
+    asks_for_explanation_screen = (
+        ("설명" in lowered or "소개" in lowered or "overview" in lowered)
+        and (
+            "보여" in lowered
+            or "열어" in lowered
+            or "화면" in lowered
+            or "overview" in lowered
+        )
+    )
+    if asks_for_explanation_screen:
+        return {
+            "action": "SHOW_MUI_OVERVIEW",
+            "library_key": "material-ui",
+            "screen": "material-ui-overview",
+            "content_type": None,
+            "confidence": confidence,
+            "source": "rule",
+        }
+
+    asks_for_demo_screen = (
+        "데모" in lowered
+        and ("보여" in lowered or "열어" in lowered or "화면" in lowered)
+    )
+    if asks_for_demo_screen:
+        return {
+            "action": "SELECT_LIBRARY",
+            "library_key": "material-ui",
+            "screen": "library-demo",
+            "content_type": None,
+            "confidence": confidence,
+            "source": "rule",
+        }
+
+    return None
+
+
 def slug_to_library_key(slug: str) -> str:
     return _SLUG_TO_LIBRARY_KEY.get(slug, slug)
 
@@ -465,7 +516,7 @@ def resolve_command_action(
     """Map a classified intent (no LLM needed) to ONE normalized frontend action.
 
     Returns dict keys: action, library_key, screen, content_type, confidence, source.
-    action values: NEXT|PREVIOUS|HOME|OVERVIEW|SHOW_DEMO|SHOW_LECTURE|SHOW_INSTALL|SELECT_LIBRARY|"" (ignore)
+    action values: NEXT|PREVIOUS|HOME|OVERVIEW|SHOW_MUI_OVERVIEW|SHOW_DEMO|SHOW_LECTURE|SHOW_INSTALL|SELECT_LIBRARY|"" (ignore)
     """
     base = _action_base(confidence, source="intent")
 
@@ -631,6 +682,7 @@ async def android_websocket(websocket: WebSocket):
     resolve_command_action, interpret_ambiguous_command.
     """
     await websocket.accept()
+    logger.info("Android WebSocket connected")
     await connection_manager.register_android(websocket)
 
     _ws_loop = asyncio.get_running_loop()
@@ -658,6 +710,7 @@ async def android_websocket(websocket: WebSocket):
     # stale backend result overwrite newer frontend navigation state.
     command_seq = 0
     ptt_active = False
+    first_audio_frame_received = False
 
     async def _process_final(text: str, intent_data: Dict[str, Any]) -> None:
         """Final transcript -> intent -> (search | LLM fallback) -> broadcast action."""
@@ -673,7 +726,10 @@ async def android_websocket(websocket: WebSocket):
             if not intent:
                 below_threshold = True
 
-            if intent == "SEARCH" and not below_threshold:
+            shortcut_action = resolve_presentation_shortcut(text, confidence)
+            if shortcut_action is not None:
+                action_data = shortcut_action
+            elif intent == "SEARCH" and not below_threshold:
                 # Clear SEARCH -> real RAG (retrieval + augmentation + generation)
                 action_data = await asyncio.to_thread(_run_rag_sync, text, app_context)
             elif should_use_llm(intent, confidence, below_threshold):
@@ -701,8 +757,14 @@ async def android_websocket(websocket: WebSocket):
                 "status": "ok",
                 **action_data,
             }
+            logger.info("Resolved action: %s", msg.get("action", ""))
             # Broadcast the CommandAction to all React lecture clients.
             await connection_manager.broadcast_action(msg)
+            logger.info("React broadcast success")
+            # Return the same resolved CommandAction to the Android remote.
+            if websocket.application_state == WebSocketState.CONNECTED:
+                await websocket.send_text(json.dumps({"type": "action", **msg}))
+                logger.info("Android action response success")
         except Exception as e:
             logger.error(f"Command action error: {e}")
             await connection_manager.broadcast_action({
@@ -713,11 +775,12 @@ async def android_websocket(websocket: WebSocket):
 
     def on_transcript(data):
         try:
-            if websocket.application_state == WebSocket.CONNECTED:
+            if websocket.application_state == WebSocketState.CONNECTED:
                 is_final = data.get("is_final", False) if isinstance(data, dict) else False
                 text = data.get("text", "")
 
                 if is_final and text.strip():
+                    logger.info("Deepgram final transcript: %s", text)
                     intent_data = {"name": "", "confidence": 0.0, "below_threshold": True}
                     try:
                         prediction = predict_intent(text, threshold=INTENT_CONFIDENCE_THRESHOLD)
@@ -745,26 +808,21 @@ async def android_websocket(websocket: WebSocket):
 
     def on_error(message):
         try:
-            if websocket.application_state == WebSocket.CONNECTED:
+            if websocket.application_state == WebSocketState.CONNECTED:
                 msg = {"type": "error", "message": str(message)}
                 _schedule_send(websocket.send_text(json.dumps(msg)))
         except Exception as e:
             logger.error(f"Error sending error: {e}")
 
-    def on_close():
-        try:
-            if websocket.application_state == WebSocket.CONNECTED:
-                _schedule_send(websocket.close())
-        except Exception as e:
-            logger.error(f"Error closing websocket: {e}")
-
     service.register_callback("transcript", on_transcript)
     service.register_callback("error", on_error)
-    service.register_callback("close", on_close)
 
     try:
-        while websocket.application_state == WebSocket.CONNECTED:
+        while websocket.application_state == WebSocketState.CONNECTED:
             data = await websocket.receive()
+            if data["type"] == "websocket.disconnect":
+                logger.info("Android WebSocket disconnected")
+                break
             if "text" in data:
                 text_data = data["text"]
                 try:
@@ -774,12 +832,23 @@ async def android_websocket(websocket: WebSocket):
                         continue
                     ctype = control.get("type")
                     if ctype == "start_ptt":
+                        logger.info("start_ptt received")
                         if not ptt_active:
-                            service.start()
-                            ptt_active = True
+                            started = await asyncio.to_thread(service.start)
+                            if started:
+                                ptt_active = True
+                                first_audio_frame_received = False
+                                logger.info("Deepgram stream started")
+                            else:
+                                ptt_active = False
+                                await websocket.send_text(json.dumps({
+                                    "type": "error",
+                                    "message": "Failed to start Deepgram STT service",
+                                }))
                     elif ctype == "stop_ptt":
+                        logger.info("stop_ptt received")
                         if ptt_active:
-                            service.stop()
+                            await asyncio.to_thread(service.stop)
                             ptt_active = False
                     elif ctype == "context":
                         for key in ("current_library", "previous_library", "current_screen", "current_content_type"):
@@ -791,23 +860,28 @@ async def android_websocket(websocket: WebSocket):
                     logger.warning(f"Ignoring malformed control message: {text_data[:80]}")
             elif "bytes" in data:
                 if ptt_active:
+                    if not first_audio_frame_received:
+                        logger.info(
+                            "Android binary audio received: first frame, %d bytes",
+                            len(data["bytes"]),
+                        )
+                        first_audio_frame_received = True
                     service.send_audio(data["bytes"])
     except WebSocketDisconnect:
         logger.info("Android WebSocket disconnected")
     except Exception as e:
         logger.error(f"Android WebSocket error: {e}")
         try:
-            if websocket.application_state == WebSocket.CONNECTED:
+            if websocket.application_state == WebSocketState.CONNECTED:
                 await websocket.close(code=1011, reason=str(e))
         except Exception:
             pass
     finally:
         service.unregister_callback("transcript", on_transcript)
         service.unregister_callback("error", on_error)
-        service.unregister_callback("close", on_close)
         # Clean up any active Deepgram session on disconnect.
         if ptt_active:
-            service.stop()
+            await asyncio.to_thread(service.stop)
         await connection_manager.unregister_android(websocket)
 
 
@@ -826,12 +900,16 @@ async def commands_websocket(websocket: WebSocket):
     whether the Android remote is connected.
     """
     await websocket.accept()
+    logger.info("React command WebSocket connected")
     await connection_manager.register_react(websocket)
     try:
-        while websocket.application_state == WebSocket.CONNECTED:
+        while websocket.application_state == WebSocketState.CONNECTED:
             # React is a display-only client; it does not send commands.
             # Keep the connection open and ignore any inbound frames.
-            await websocket.receive()
+            data = await websocket.receive()
+            if data["type"] == "websocket.disconnect":
+                logger.info("React command WebSocket disconnected")
+                break
     except WebSocketDisconnect:
         logger.info("React command WebSocket disconnected")
     except Exception as e:
@@ -914,7 +992,10 @@ async def stt_websocket(websocket: WebSocket):
                 # Intent model unavailable -> behave like an ambiguous command
                 below_threshold = True
 
-            if intent == "SEARCH" and not below_threshold:
+            shortcut_action = resolve_presentation_shortcut(text, confidence)
+            if shortcut_action is not None:
+                action_data = shortcut_action
+            elif intent == "SEARCH" and not below_threshold:
                 # Clear SEARCH -> real RAG (retrieval + augmentation + generation)
                 action_data = await asyncio.to_thread(_run_rag_sync, text, app_context)
             elif should_use_llm(intent, confidence, below_threshold):
@@ -955,7 +1036,7 @@ async def stt_websocket(websocket: WebSocket):
     def on_transcript(data):
         try:
             # Only send if websocket is still connected
-            if websocket.application_state == WebSocket.CONNECTED:
+            if websocket.application_state == WebSocketState.CONNECTED:
                 is_final = data.get("is_final", False) if isinstance(data, dict) else False
                 text = data.get("text", "")
 
@@ -989,7 +1070,7 @@ async def stt_websocket(websocket: WebSocket):
 
     def on_error(message):
         try:
-            if websocket.application_state == WebSocket.CONNECTED:
+            if websocket.application_state == WebSocketState.CONNECTED:
                 msg = {"type": "error", "message": str(message)}
                 _schedule_send(websocket.send_text(json.dumps(msg)))
         except Exception as e:
@@ -997,7 +1078,7 @@ async def stt_websocket(websocket: WebSocket):
 
     def on_close():
         try:
-            if websocket.application_state == WebSocket.CONNECTED:
+            if websocket.application_state == WebSocketState.CONNECTED:
                 _schedule_send(websocket.close())
         except Exception as e:
             logger.error(f"Error closing websocket: {e}")
@@ -1008,8 +1089,11 @@ async def stt_websocket(websocket: WebSocket):
 
     # Accept audio from client and forward to Deepgram
     try:
-        while websocket.application_state == WebSocket.CONNECTED:
+        while websocket.application_state == WebSocketState.CONNECTED:
             data = await websocket.receive()
+            if data["type"] == "websocket.disconnect":
+                logger.info("WebSocket client disconnected")
+                break
             if "text" in data:
                 # Handle control messages if needed
                 text_data = data["text"]
@@ -1039,7 +1123,7 @@ async def stt_websocket(websocket: WebSocket):
     except Exception as e:
         logger.error(f"WebSocket error: {e}")
         try:
-            if websocket.application_state == WebSocket.CONNECTED:
+            if websocket.application_state == WebSocketState.CONNECTED:
                 await websocket.close(code=1011, reason=str(e))
         except Exception:
             pass

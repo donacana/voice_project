@@ -615,7 +615,66 @@
   transform: translateY(-2px);
 }
 
+/* Active presentation scroll target for button and voice navigation. */
+.presentation-content {
+  width: 100%;
+  scroll-margin-top: 1rem;
+}
+
 /* Category Lecture Comparison */
+.mui-internal-steps {
+  display: flex;
+  justify-content: center;
+  gap: 0.45rem;
+  flex-wrap: wrap;
+  width: 100%;
+}
+
+.mui-internal-steps span {
+  padding: 0.35rem 0.75rem;
+  border: 1px solid #3f4350;
+  border-radius: 999px;
+  background: rgba(40, 40, 50, 0.72);
+  color: #858995;
+  font-size: 0.75rem;
+  font-weight: 700;
+}
+
+.mui-internal-steps span.active {
+  border-color: #646cff;
+  background: rgba(100, 108, 255, 0.18);
+  color: #aeb4ff;
+}
+
+.design-systems-steps {
+  display: flex;
+  justify-content: center;
+  gap: 0.5rem;
+  flex-wrap: wrap;
+  width: 100%;
+}
+
+.design-systems-steps button {
+  padding: 0.65rem 1rem;
+  border: 1px solid #444;
+  border-radius: 999px;
+  background: rgba(40, 40, 50, 0.8);
+  color: #aaa;
+  cursor: pointer;
+  font-weight: 600;
+}
+
+.design-systems-steps button:hover {
+  border-color: #646cff;
+  color: #fff;
+}
+
+.design-systems-steps button.active {
+  border-color: #646cff;
+  background: #646cff;
+  color: #fff;
+}
+
 .category-lecture-screen {
   display: flex;
   flex-direction: column;

@@ -11,7 +11,14 @@ import { BaseUIDemo } from './components/demos/BaseUIDemo'
 import { MantineDemo } from './components/demos/MantineDemo'
 import { MainLayout } from './components/MainLayout'
 import { IntroScreen } from './components/IntroScreen'
+import { UILibraryConcept } from './components/UILibraryConcept'
 import { LibraryOverview } from './components/LibraryOverview'
+import { MaterialUIOverview } from './components/MaterialUIOverview'
+import { MUICoreVsX } from './components/MUICoreVsX'
+import { MUIXDetail } from './components/MUIXDetail'
+import { AntDesignEnterprise } from './components/AntDesignEnterprise'
+import { DesignSystemCustomization } from './components/DesignSystemCustomization'
+import { TailwindOverview } from './components/TailwindOverview'
 import { CategoryLecture } from './components/CategoryLecture'
 import { DecisionGuide } from './components/DecisionGuide'
 import { Closing } from './components/Closing'
@@ -78,6 +85,8 @@ function App() {
     previousScreen: null as LectureScreen | null,
   })
   const commandRef = useRef<CommandReceiver | null>(null)
+  const presentationContentRef = useRef<HTMLDivElement | null>(null)
+  const hasPresentationMountedRef = useRef(false)
 
   useEffect(() => {
     navRef.current = {
@@ -104,6 +113,24 @@ function App() {
       .catch(() => setBackendStatus('Backend: Offline'))
   }, [])
 
+  // Scroll only when the actual presentation location changes. Demo-local
+  // interactions do not update these values, so they never trigger scrolling.
+  useEffect(() => {
+    if (!hasPresentationMountedRef.current) {
+      hasPresentationMountedRef.current = true
+      return
+    }
+
+    const frame = window.requestAnimationFrame(() => {
+      presentationContentRef.current?.scrollIntoView({
+        behavior: 'smooth',
+        block: 'start',
+      })
+    })
+
+    return () => window.cancelAnimationFrame(frame)
+  }, [currentScreen, currentLibrary, currentCategory, currentContentType])
+
   const navigate = (screen: LectureScreen, library: LibraryKey) => {
     const prev = navRef.current
 
@@ -126,12 +153,46 @@ function App() {
 
   const handleLibrarySelect = (key: LibraryKey) => navigate('library-demo', key)
 
+  // The presentation overview introduces Material UI before showing its demo.
+  // Other library selections keep their existing direct-to-demo behavior.
+  const handleOverviewLibrarySelect = (key: LibraryKey) => {
+    if (key === 'material-ui') {
+      navigate('material-ui-overview', key)
+      return
+    }
+    handleLibrarySelect(key)
+  }
+
   const handleCategorySelect = (category: CategoryKey) => {
     setCurrentCategory(category)
     const firstLib = categories.find(c => c.key === category)?.libraries[0]
     if (firstLib) {
-      navigate('category-lecture', firstLib)
+      navigate(
+        category === 'design-systems'
+          ? 'material-ui-overview'
+          : category === 'tailwind-based'
+            ? 'tailwind-overview'
+            : category === 'unstyled-primitives'
+            ? 'library-demo'
+            : 'category-lecture',
+        firstLib
+      )
     }
+  }
+
+  const showDesignSystemsSummary = () => {
+    setCurrentCategory('design-systems')
+    navigate('category-lecture', 'chakra-ui')
+  }
+
+  const showTailwindSummary = () => {
+    setCurrentCategory('tailwind-based')
+    navigate('category-lecture', 'shadcn')
+  }
+
+  const showUnstyledSummary = () => {
+    setCurrentCategory('unstyled-primitives')
+    navigate('category-lecture', 'base-ui')
   }
 
   const handleNextCategory = () => {
@@ -149,6 +210,42 @@ function App() {
   }
 
   const handleNextLibrary = () => {
+    if (
+      navRef.current.currentLibrary === 'ant-design'
+      && (navRef.current.currentScreen === 'library-demo'
+        || navRef.current.currentScreen === 'lecture-content')
+    ) {
+      navigate('ant-design-enterprise', 'ant-design')
+      return
+    }
+    if (
+      navRef.current.currentLibrary === 'chakra-ui'
+      && (navRef.current.currentScreen === 'library-demo'
+        || navRef.current.currentScreen === 'lecture-content')
+    ) {
+      navigate('design-system-customization', 'chakra-ui')
+      return
+    }
+    if (navRef.current.currentLibrary === 'headless-ui') {
+      handleLibrarySelect('shadcn')
+      return
+    }
+    if (
+      navRef.current.currentLibrary === 'shadcn'
+      && (navRef.current.currentScreen === 'library-demo'
+        || navRef.current.currentScreen === 'lecture-content')
+    ) {
+      showTailwindSummary()
+      return
+    }
+    if (
+      navRef.current.currentLibrary === 'base-ui'
+      && (navRef.current.currentScreen === 'library-demo'
+        || navRef.current.currentScreen === 'lecture-content')
+    ) {
+      showUnstyledSummary()
+      return
+    }
     const currentIndex = libraries.findIndex(lib => lib.key === navRef.current.currentLibrary)
     if (currentIndex < libraries.length - 1) {
       handleLibrarySelect(libraries[currentIndex + 1].key)
@@ -156,10 +253,30 @@ function App() {
   }
 
   const handlePrevLibrary = () => {
+    if (navRef.current.currentLibrary === 'chakra-ui') {
+      navigate('ant-design-enterprise', 'ant-design')
+      return
+    }
+    if (navRef.current.currentLibrary === 'daisyui') {
+      navigate('tailwind-overview', 'daisyui')
+      return
+    }
+    if (navRef.current.currentLibrary === 'shadcn') {
+      handleLibrarySelect('headless-ui')
+      return
+    }
     const currentIndex = libraries.findIndex(lib => lib.key === navRef.current.currentLibrary)
     if (currentIndex > 0) {
       handleLibrarySelect(libraries[currentIndex - 1].key)
     }
+  }
+
+  const handleDemoPrevious = () => {
+    if (navRef.current.currentLibrary === 'material-ui') {
+      navigate('mui-x-detail', 'material-ui')
+      return
+    }
+    handlePrevLibrary()
   }
 
   const openOfficialSite = (url: string) => {
@@ -176,10 +293,75 @@ function App() {
     const nav = navRef.current
     switch (action.action) {
       case 'NEXT':
-        handleNextLibrary()
+        if (nav.currentScreen === 'intro') {
+          navigate('ui-library-concept', nav.currentLibrary)
+        } else if (nav.currentScreen === 'ui-library-concept') {
+          navigate('library-overview', nav.currentLibrary)
+        } else if (nav.currentScreen === 'library-overview') {
+          navigate('material-ui-overview', 'material-ui')
+        } else if (nav.currentScreen === 'material-ui-overview') {
+          navigate('mui-core-vs-x', 'material-ui')
+        } else if (nav.currentScreen === 'mui-core-vs-x') {
+          navigate('mui-x-detail', 'material-ui')
+        } else if (nav.currentScreen === 'mui-x-detail') {
+          navigate('library-demo', 'material-ui')
+        } else if (nav.currentScreen === 'ant-design-enterprise') {
+          navigate('library-demo', 'chakra-ui')
+        } else if (nav.currentScreen === 'design-system-customization') {
+          showDesignSystemsSummary()
+        } else if (nav.currentScreen === 'tailwind-overview') {
+          navigate('library-demo', 'daisyui')
+        } else if (
+          nav.currentScreen === 'category-lecture'
+          && (nav.currentCategory === 'design-systems'
+            || nav.currentCategory === 'tailwind-based'
+            || nav.currentCategory === 'unstyled-primitives')
+        ) {
+          handleNextCategory()
+        } else {
+          handleNextLibrary()
+        }
         break
       case 'PREVIOUS':
-        handlePrevLibrary()
+        if (nav.currentScreen === 'library-overview') {
+          navigate('ui-library-concept', nav.currentLibrary)
+        } else if (nav.currentScreen === 'ui-library-concept') {
+          navigate('intro', nav.currentLibrary)
+        } else if (nav.currentScreen === 'material-ui-overview') {
+          navigate('library-overview', 'material-ui')
+        } else if (nav.currentScreen === 'mui-core-vs-x') {
+          navigate('material-ui-overview', 'material-ui')
+        } else if (nav.currentScreen === 'mui-x-detail') {
+          navigate('mui-core-vs-x', 'material-ui')
+        } else if (nav.currentScreen === 'ant-design-enterprise') {
+          navigate('library-demo', 'ant-design')
+        } else if (
+          nav.currentScreen === 'library-demo'
+          && nav.currentLibrary === 'material-ui'
+        ) {
+          navigate('mui-x-detail', 'material-ui')
+        } else if (
+          nav.currentScreen === 'category-lecture'
+          && nav.currentCategory === 'design-systems'
+        ) {
+          navigate('design-system-customization', 'chakra-ui')
+        } else if (nav.currentScreen === 'design-system-customization') {
+          navigate('library-demo', 'chakra-ui')
+        } else if (nav.currentScreen === 'tailwind-overview') {
+          showDesignSystemsSummary()
+        } else if (
+          nav.currentScreen === 'category-lecture'
+          && nav.currentCategory === 'tailwind-based'
+        ) {
+          navigate('library-demo', 'shadcn')
+        } else if (
+          nav.currentScreen === 'category-lecture'
+          && nav.currentCategory === 'unstyled-primitives'
+        ) {
+          navigate('library-demo', 'base-ui')
+        } else {
+          handlePrevLibrary()
+        }
         break
       case 'HOME':
         navigate('intro', nav.currentLibrary)
@@ -192,6 +374,9 @@ function App() {
         break
       case 'PREV_CATEGORY':
         handlePrevCategory()
+        break
+      case 'SHOW_MUI_OVERVIEW':
+        navigate('material-ui-overview', 'material-ui')
         break
       case 'SHOW_DEMO':
         navigate('library-demo', nav.currentLibrary)
@@ -265,6 +450,51 @@ function App() {
   const DemoComponent = demoComponents[currentLibrary]
   const libraryName = libraries.find(lib => lib.key === currentLibrary)?.name || 'Unknown'
   const lectureContent = getLectureContent(currentLibrary, currentContentType)
+  const showDesignSystemsSteps = (
+    currentScreen === 'material-ui-overview'
+    || currentScreen === 'mui-core-vs-x'
+    || currentScreen === 'mui-x-detail'
+    || currentScreen === 'ant-design-enterprise'
+    || currentScreen === 'design-system-customization'
+    || currentScreen === 'library-demo'
+    || currentScreen === 'lecture-content'
+    || (currentScreen === 'category-lecture' && currentCategory === 'design-systems')
+  ) && ['material-ui', 'ant-design', 'chakra-ui'].includes(currentLibrary)
+  const designSystemsStep = currentScreen === 'category-lecture'
+    ? 'summary'
+    : currentScreen === 'design-system-customization'
+      ? 'customization'
+      : currentLibrary
+  const showTailwindSteps = (
+    currentScreen === 'tailwind-overview'
+    || currentScreen === 'library-demo'
+    || currentScreen === 'lecture-content'
+    || (currentScreen === 'category-lecture' && currentCategory === 'tailwind-based')
+  ) && ['daisyui', 'headless-ui', 'shadcn'].includes(currentLibrary)
+  const tailwindStep = currentScreen === 'category-lecture'
+    ? 'summary'
+    : currentScreen === 'tailwind-overview'
+      ? 'tailwind'
+      : currentLibrary
+  const showUnstyledSteps = (
+    currentScreen === 'library-demo'
+    || currentScreen === 'lecture-content'
+    || (currentScreen === 'category-lecture' && currentCategory === 'unstyled-primitives')
+  ) && ['react-aria', 'radix-ui', 'base-ui'].includes(currentLibrary)
+  const unstyledStep = currentScreen === 'category-lecture'
+    ? 'summary'
+      : currentLibrary
+  const showMuiInternalSteps = currentLibrary === 'material-ui' && (
+    currentScreen === 'material-ui-overview'
+    || currentScreen === 'mui-core-vs-x'
+    || currentScreen === 'mui-x-detail'
+    || currentScreen === 'library-demo'
+  )
+  const muiInternalStep = currentScreen === 'library-demo' ? 'demo' : currentScreen
+  const showAntInternalSteps = (
+    (currentScreen === 'library-demo' && currentLibrary === 'ant-design')
+    || currentScreen === 'ant-design-enterprise'
+  )
 
   return (
     <MainLayout
@@ -272,18 +502,183 @@ function App() {
       backendStatus={backendStatus}
       remoteStatus={remoteStatus}
     >
+      <div ref={presentationContentRef} className="presentation-content">
+      {showDesignSystemsSteps && (
+        <nav className="design-systems-steps" aria-label="Design Systems presentation steps">
+          <button
+            className={designSystemsStep === 'material-ui' ? 'active' : ''}
+            onClick={() => navigate('material-ui-overview', 'material-ui')}
+          >
+            Material UI
+          </button>
+          <button
+            className={designSystemsStep === 'ant-design' ? 'active' : ''}
+            onClick={() => navigate('library-demo', 'ant-design')}
+          >
+            Ant Design
+          </button>
+          <button
+            className={designSystemsStep === 'chakra-ui' ? 'active' : ''}
+            onClick={() => navigate('library-demo', 'chakra-ui')}
+          >
+            Chakra UI
+          </button>
+          <button
+            className={designSystemsStep === 'customization' ? 'active' : ''}
+            onClick={() => navigate('design-system-customization', 'chakra-ui')}
+          >
+            커스터마이징
+          </button>
+          <button
+            className={designSystemsStep === 'summary' ? 'active' : ''}
+            onClick={showDesignSystemsSummary}
+          >
+            비교 정리
+          </button>
+        </nav>
+      )}
+
+      {showMuiInternalSteps && (
+        <div className="mui-internal-steps" aria-label="Material UI 내부 진행 단계">
+          <span className={muiInternalStep === 'material-ui-overview' ? 'active' : ''}>1. 개념</span>
+          <span className={muiInternalStep === 'mui-core-vs-x' ? 'active' : ''}>2. Core / X</span>
+          <span className={muiInternalStep === 'mui-x-detail' ? 'active' : ''}>3. MUI X</span>
+          <span className={muiInternalStep === 'demo' ? 'active' : ''}>4. Demo</span>
+        </div>
+      )}
+
+      {showAntInternalSteps && (
+        <div className="mui-internal-steps" aria-label="Ant Design 내부 진행 단계">
+          <span className={currentScreen === 'library-demo' ? 'active' : ''}>1. Demo</span>
+          <span className={currentScreen === 'ant-design-enterprise' ? 'active' : ''}>2. 왜 Ant Design?</span>
+        </div>
+      )}
+
+      {showTailwindSteps && (
+        <nav className="design-systems-steps" aria-label="Tailwind-Based presentation steps">
+          <button
+            className={tailwindStep === 'tailwind' ? 'active' : ''}
+            onClick={() => navigate('tailwind-overview', 'daisyui')}
+          >
+            Tailwind
+          </button>
+          <button
+            className={tailwindStep === 'daisyui' ? 'active' : ''}
+            onClick={() => navigate('library-demo', 'daisyui')}
+          >
+            daisyUI
+          </button>
+          <button
+            className={tailwindStep === 'headless-ui' ? 'active' : ''}
+            onClick={() => navigate('library-demo', 'headless-ui')}
+          >
+            Headless UI
+          </button>
+          <button
+            className={tailwindStep === 'shadcn' ? 'active' : ''}
+            onClick={() => navigate('library-demo', 'shadcn')}
+          >
+            shadcn/ui
+          </button>
+          <button
+            className={tailwindStep === 'summary' ? 'active' : ''}
+            onClick={showTailwindSummary}
+          >
+            비교 정리
+          </button>
+        </nav>
+      )}
+
+      {showUnstyledSteps && (
+        <nav className="design-systems-steps" aria-label="Unstyled and Primitives presentation steps">
+          <button
+            className={unstyledStep === 'react-aria' ? 'active' : ''}
+            onClick={() => navigate('library-demo', 'react-aria')}
+          >
+            React Aria
+          </button>
+          <button
+            className={unstyledStep === 'radix-ui' ? 'active' : ''}
+            onClick={() => navigate('library-demo', 'radix-ui')}
+          >
+            Radix UI
+          </button>
+          <button
+            className={unstyledStep === 'base-ui' ? 'active' : ''}
+            onClick={() => navigate('library-demo', 'base-ui')}
+          >
+            Base UI
+          </button>
+          <button
+            className={unstyledStep === 'summary' ? 'active' : ''}
+            onClick={showUnstyledSummary}
+          >
+            비교 정리
+          </button>
+        </nav>
+      )}
+
       {currentScreen === 'intro' && (
         <IntroScreen
           onStartClick={() =>
-            navigate('library-overview', currentLibrary)
+            navigate('ui-library-concept', currentLibrary)
           }
+        />
+      )}
+
+      {currentScreen === 'ui-library-concept' && (
+        <UILibraryConcept
+          onBack={() => navigate('intro', currentLibrary)}
+          onNext={() => navigate('library-overview', currentLibrary)}
         />
       )}
 
       {currentScreen === 'library-overview' && (
         <LibraryOverview
-          onLibrarySelect={handleLibrarySelect}
+          onLibrarySelect={handleOverviewLibrarySelect}
           onCategorySelect={handleCategorySelect}
+        />
+      )}
+
+      {currentScreen === 'material-ui-overview' && (
+        <MaterialUIOverview
+          onBack={() => navigate('library-overview', 'material-ui')}
+          onNext={() => navigate('mui-core-vs-x', 'material-ui')}
+        />
+      )}
+
+      {currentScreen === 'mui-core-vs-x' && (
+        <MUICoreVsX
+          onBack={() => navigate('material-ui-overview', 'material-ui')}
+          onNext={() => navigate('mui-x-detail', 'material-ui')}
+        />
+      )}
+
+      {currentScreen === 'mui-x-detail' && (
+        <MUIXDetail
+          onBack={() => navigate('mui-core-vs-x', 'material-ui')}
+          onNext={() => navigate('library-demo', 'material-ui')}
+        />
+      )}
+
+      {currentScreen === 'ant-design-enterprise' && (
+        <AntDesignEnterprise
+          onBack={() => navigate('library-demo', 'ant-design')}
+          onNext={() => navigate('library-demo', 'chakra-ui')}
+        />
+      )}
+
+      {currentScreen === 'design-system-customization' && (
+        <DesignSystemCustomization
+          onBack={() => navigate('library-demo', 'chakra-ui')}
+          onNext={showDesignSystemsSummary}
+        />
+      )}
+
+      {currentScreen === 'tailwind-overview' && (
+        <TailwindOverview
+          onBack={showDesignSystemsSummary}
+          onNext={() => navigate('library-demo', 'daisyui')}
         />
       )}
 
@@ -297,10 +692,22 @@ function App() {
 
           <div className="lecture-navigation">
             <button
-              onClick={handlePrevCategory}
-              disabled={currentCategory === 'design-systems'}
+              onClick={currentCategory === 'design-systems'
+                ? () => navigate('design-system-customization', 'chakra-ui')
+                : currentCategory === 'tailwind-based'
+                  ? () => navigate('library-demo', 'shadcn')
+                  : currentCategory === 'unstyled-primitives'
+                    ? () => navigate('library-demo', 'base-ui')
+                    : handlePrevCategory}
+              disabled={false}
             >
-              ← Previous Category
+              {currentCategory === 'design-systems'
+                ? '← 커스터마이징'
+                : currentCategory === 'tailwind-based'
+                  ? '← shadcn/ui'
+                  : currentCategory === 'unstyled-primitives'
+                    ? '← Base UI'
+                    : '← Previous Category'}
             </button>
 
             <button
@@ -369,8 +776,7 @@ function App() {
 
           <div className="demo-controls">
             <button
-              onClick={handlePrevLibrary}
-              disabled={currentLibrary === 'material-ui'}
+              onClick={handleDemoPrevious}
             >
               ← Previous
             </button>
@@ -467,6 +873,7 @@ function App() {
           </div>
         </div>
       )}
+      </div>
     </MainLayout>
   )
 }

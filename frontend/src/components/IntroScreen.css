@@ -94,50 +94,6 @@
   color: #646cff;
 }
 
-/* Features */
-.intro-features {
-  margin-bottom: 3rem;
-}
-
-.intro-features h3 {
-  font-size: 1.5rem;
-  color: #e0e0e0;
-  margin-bottom: 1.5rem;
-}
-
-.features-list {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
-  gap: 1.5rem;
-}
-
-.feature-item {
-  display: flex;
-  gap: 1rem;
-  background: rgba(40, 40, 50, 0.8);
-  border: 1px solid #444;
-  border-radius: 8px;
-  padding: 1.5rem;
-}
-
-.feature-icon {
-  font-size: 2rem;
-  flex-shrink: 0;
-}
-
-.feature-item strong {
-  display: block;
-  color: #646cff;
-  margin-bottom: 0.5rem;
-}
-
-.feature-item p {
-  margin: 0;
-  color: #aaa;
-  font-size: 0.9rem;
-  line-height: 1.4;
-}
-
 /* CTA */
 .intro-cta {
   text-align: center;

@@ -1,78 +1,45 @@
-import React from 'react'
-import { Disclosure } from '@headlessui/react'
+import './TailwindLibrarySlide.css'
 
-export const HeadlessUIDemo: React.FC = () => {
+const behaviorRows = [
+  ['Menu', '열기 / 닫기'],
+  ['Keyboard', 'Tab / Enter / Escape'],
+  ['Focus', '포커스 이동 및 관리'],
+  ['Accessibility', 'Screen Reader 대응'],
+]
+
+export function HeadlessUIDemo() {
   return (
-    <div className="p-6 bg-[#0f1117] min-h-full">
-      <h2 className="text-3xl font-bold text-blue-400 mb-2">Headless UI</h2>
-      <p className="text-gray-400 mb-6">
-        기능/접근성은 제공, 디자인은 개발자가 직접
-      </p>
+    <div className="tailwind-library-page">
+      <header className="tailwind-library-hero">
+        <span>Tailwind-Based · Behavior</span>
+        <h1>Headless UI</h1>
+        <p>디자인은 내가 만들고, 복잡한 동작과 접근성은 라이브러리가 처리</p>
+      </header>
 
-      {/* Layer flow */}
-      <div className="bg-slate-900 border border-slate-700 rounded-lg p-6 mb-6">
-        <h3 className="text-lg font-semibold text-blue-400 mb-4">역할 분리 흐름</h3>
-        <div className="flex flex-col md:flex-row items-stretch gap-4">
-          {/* Behavior layer */}
-          <div className="flex-1 bg-black/40 border border-blue-500 rounded-lg p-4">
-            <div className="text-blue-400 font-semibold mb-2">Headless UI</div>
-            <ul className="text-gray-300 text-sm space-y-1">
-              <li>• Menu 열기/닫기</li>
-              <li>• 선택 동작</li>
-              <li>• 키보드 (Tab/Enter/Escape)</li>
-              <li>• Focus 관리</li>
-              <li>• 스크린리더 인식</li>
-            </ul>
-          </div>
+      <section className="tailwind-library-core">
+        <p>완성된 색상이나 디자인 대신 Menu · Dialog · Listbox의 <strong>동작과 접근성</strong>을 제공합니다.</p>
+      </section>
 
-          <div className="flex items-center justify-center text-blue-400 text-2xl font-bold">
-            ↓
-          </div>
+      <section className="tailwind-library-comparison headless-comparison">
+        <article className="accent-card">
+          <span>Behavior + Accessibility</span><h2>HEADLESS UI</h2>
+          <div className="role-rows">{behaviorRows.map(([label, value]) => <p key={label}><strong>{label}</strong><b>→</b><span>{value}</span></p>)}</div>
+        </article>
+        <div className="comparison-arrow"><b>+</b></div>
+        <article>
+          <span>Tailwind / CSS</span><h2>MY DESIGN</h2>
+          <div className="design-chips">{['Color', 'Spacing', 'Border', 'Shadow', 'Animation'].map(item => <span key={item}>{item}</span>)}</div>
+        </article>
+      </section>
 
-          {/* Design layer */}
-          <div className="flex-1 bg-black/40 border border-slate-600 rounded-lg p-4">
-            <div className="text-gray-300 font-semibold mb-2">내 CSS / Tailwind</div>
-            <ul className="text-gray-400 text-sm space-y-1">
-              <li>• 색상</li>
-              <li>• 간격</li>
-              <li>• 테두리</li>
-              <li>• 애니메이션</li>
-            </ul>
-          </div>
+      <div className="flow-equation"><strong>Headless UI</strong><b>+</b><strong>Tailwind / CSS</strong><b>↓</b><strong>완성된 나만의 Menu</strong></div>
 
-          <div className="flex items-center justify-center text-blue-400 text-2xl font-bold">
-            ↓
-          </div>
+      <section className="tailwind-library-tradeoffs">
+        <article><h3>장점</h3><ul><li>기본 디자인에 묶이지 않음</li><li>키보드 조작과 Focus 처리</li><li>접근성 구현 부담 감소</li></ul></article>
+        <article><h3>한계</h3><ul><li>기본 디자인 없음</li><li>스타일은 직접 만들어야 함</li></ul></article>
+      </section>
 
-          {/* Final UI */}
-          <div className="flex-1 bg-black/40 border border-green-500 rounded-lg p-4">
-            <div className="text-green-400 font-semibold mb-2">내 디자인의 Menu</div>
-            <p className="text-gray-400 text-sm">
-              동작은 Headless UI가, 디자인은 내가
-            </p>
-          </div>
-        </div>
-      </div>
-
-      {/* Live example: Disclosure */}
-      <div className="bg-slate-900 border border-slate-700 rounded-lg p-6">
-        <h3 className="text-lg font-semibold text-blue-400 mb-4">
-          실제 예시: Disclosure (동작은 Headless UI, 디자인은 Tailwind)
-        </h3>
-        <Disclosure>
-          {({ open }) => (
-            <>
-              <Disclosure.Button className="w-full px-4 py-2 bg-blue-600 text-white rounded hover:bg-blue-700 text-left">
-                {open ? '▼' : '▶'} Expandable Section
-              </Disclosure.Button>
-              <Disclosure.Panel className="px-4 py-2 bg-slate-800 text-gray-300 mt-2">
-                열기/닫기, 키보드, Focus, 접근성은 Headless UI가 처리하고,
-                색상·간격·테두리는 Tailwind로 직접 지정했습니다.
-              </Disclosure.Panel>
-            </>
-          )}
-        </Disclosure>
-      </div>
+      <footer className="tailwind-library-takeaway">동작은 <strong>Headless UI</strong>, 디자인은 <strong>개발자</strong></footer>
     </div>
   )
 }

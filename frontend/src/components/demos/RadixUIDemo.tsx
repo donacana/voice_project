@@ -1,96 +1,31 @@
 import React from 'react'
 import * as Dialog from '@radix-ui/react-dialog'
-import * as Label from '@radix-ui/react-label'
+import './TailwindLibrarySlide.css'
 
-// LEGO-block primitives diagram data.
-const primitives = ['Dialog', 'Dropdown', 'Tooltip', 'Popover']
+const primitives = ['Dialog', 'Dropdown Menu', 'Tooltip', 'Popover', 'Tabs', 'Accordion']
 
-export const RadixUIDemo: React.FC = () => {
+export function RadixUIDemo() {
   const [open, setOpen] = React.useState(false)
-
   return (
-    <div className="p-6 bg-[#0f1117] min-h-full">
-      <h2 className="text-3xl font-bold text-blue-400 mb-2">Radix UI</h2>
-      <p className="text-gray-400 mb-6">
-        접근성까지 구현된 기본 UI 부품(Primitive) → 자체 디자인 시스템
-      </p>
+    <div className="tailwind-library-page">
+      <header className="tailwind-library-hero"><span>Unstyled / Primitives · Building Blocks</span><h1>Radix UI</h1><p>접근성과 동작이 구현된 작은 UI 부품으로 내 디자인 시스템을 조립하는 방식</p></header>
+      <section className="tailwind-library-core"><p>완성품이 아니라, <strong>잘 만들어진 UI 부품 블록</strong>을 제공</p></section>
 
-      {/* LEGO block concept */}
-      <div className="bg-slate-900 border border-slate-700 rounded-lg p-6 mb-6">
-        <h3 className="text-lg font-semibold text-blue-400 mb-4">
-          Primitive = 레고 블록
-        </h3>
-        <div className="flex flex-wrap gap-3 mb-4">
-          {primitives.map(p => (
-            <div
-              key={p}
-              className="bg-blue-600/20 border border-blue-500 rounded-lg px-4 py-3 text-blue-300 font-semibold"
-            >
-              {p}
-            </div>
-          ))}
-        </div>
-        <div className="flex items-center gap-2 text-gray-400 text-sm mb-4">
-          <span>＋</span>
-          <span>우리 CSS · 우리 로직</span>
-        </div>
-        <div className="bg-green-600/20 border border-green-500 rounded-lg px-4 py-3 text-green-300 font-semibold w-fit">
-          우리 회사 디자인 시스템
-        </div>
-        <p className="text-gray-400 text-sm mt-4">
-          저수준은 품질이 낮다는 뜻이 아닙니다. 완성된 LEGO 자동차 대신
-          바퀴·축·핸들·블록처럼 작은 부품을 제공하고, 부품 안에는 키보드·Focus·Escape·ARIA 같은
-          어려운 상호작용이 이미 포함되어 있습니다.
-        </p>
-      </div>
+      <section className="tailwind-library-comparison">
+        <article className="accent-card"><span>Accessible Building Blocks</span><h2>RADIX PRIMITIVES</h2><div className="primitive-chips">{primitives.map(item => <span key={item}>{item}</span>)}</div><p className="card-caption">열기/닫기 · Focus · Keyboard · ARIA 동작 포함</p></article>
+        <div className="comparison-arrow"><b>+</b></div>
+        <article><span>Visual Rules</span><h2>MY DESIGN SYSTEM</h2><div className="design-chips">{['우리 색상', '우리 spacing', '우리 radius', '우리 animation', '우리 layout'].map(item => <span key={item}>{item}</span>)}</div></article>
+      </section>
 
-      {/* Live Dialog primitive with custom styling */}
-      <div className="bg-slate-900 border border-slate-700 rounded-lg p-6">
-        <h3 className="text-lg font-semibold text-blue-400 mb-4">
-          실제 예시: Dialog Primitive + 우리 스타일
-        </h3>
-        <Dialog.Root open={open} onOpenChange={setOpen}>
-          <Dialog.Trigger asChild>
-            <button className="px-4 py-2 bg-blue-600 text-white rounded hover:bg-blue-700">
-              Dialog 열기
-            </button>
-          </Dialog.Trigger>
-          <Dialog.Portal>
-            <Dialog.Overlay className="fixed inset-0 bg-black/60" />
-            <Dialog.Content className="fixed top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 bg-slate-800 border border-slate-600 rounded-lg p-6 w-[90vw] max-w-md">
-              <Dialog.Title className="text-lg font-semibold text-blue-400 mb-2">
-                회원가입 확인
-              </Dialog.Title>
-              <Dialog.Description className="text-gray-300 text-sm mb-4">
-                Radix Dialog가 열기/닫기, Focus, Escape, ARIA를 처리하고,
-                색상·간격·테두리는 우리가 직접 지정했습니다.
-              </Dialog.Description>
-              <div className="mb-4">
-                <Label.Root className="block text-gray-400 text-sm mb-1" htmlFor="name">
-                  이름
-                </Label.Root>
-                <input
-                  id="name"
-                  className="w-full px-3 py-2 bg-slate-900 border border-slate-600 rounded text-gray-200"
-                  placeholder="이름 입력"
-                />
-              </div>
-              <div className="flex justify-end gap-2">
-                <Dialog.Close asChild>
-                  <button className="px-4 py-2 bg-slate-700 text-gray-200 rounded hover:bg-slate-600">
-                    취소
-                  </button>
-                </Dialog.Close>
-                <Dialog.Close asChild>
-                  <button className="px-4 py-2 bg-blue-600 text-white rounded hover:bg-blue-700">
-                    확인
-                  </button>
-                </Dialog.Close>
-              </div>
-            </Dialog.Content>
-          </Dialog.Portal>
-        </Dialog.Root>
-      </div>
+      <div className="flow-equation"><strong>Radix Primitive</strong><b>+</b><strong>My Style</strong><b>↓</b><strong>Custom Dialog / Menu / Tooltip</strong></div>
+
+      <section className="preview-and-tradeoffs">
+        <article className="compact-preview"><h3>Dialog Primitive + 우리 스타일</h3><Dialog.Root open={open} onOpenChange={setOpen}><Dialog.Trigger asChild><button className="dialog-trigger">Dialog 열기</button></Dialog.Trigger><div className={`dialog-mock ${open ? 'visible' : ''}`}><strong>회원가입 확인</strong><span>Focus · Escape · ARIA는 Radix가 처리</span><Dialog.Close asChild><button>닫기</button></Dialog.Close></div></Dialog.Root></article>
+        <div className="mini-tradeoffs"><article><h3>장점</h3><ul><li>접근성과 동작이 안정적</li><li>디자인 제어권이 큼</li><li>디자인 시스템 구축에 적합</li></ul></article><article><h3>한계</h3><ul><li>기본 완성 디자인 없음</li><li>스타일링 필요</li><li>Primitive 개념이 낯설 수 있음</li></ul></article></div>
+      </section>
+
+      <div className="source-statement">LEGO 완성품이 아니라, <strong>고품질 부품을 받아 내 방식으로 조립</strong>하는 라이브러리</div>
+      <footer className="tailwind-library-takeaway">Radix UI는 완성된 컴포넌트보다, <strong>조립 가능한 고품질 UI 부품</strong>에 가깝다.</footer>
     </div>
   )
 }

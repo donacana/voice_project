@@ -40,7 +40,7 @@ export const categories: CategoryInfo[] = [
     key: 'tailwind-based',
     name: 'Tailwind-Based',
     why: 'Tailwind CSS 워크플로우 위에서 스타일링과 컴포넌트를 제공한다.',
-    libraries: ['shadcn', 'daisyui', 'headless-ui'],
+    libraries: ['daisyui', 'headless-ui', 'shadcn'],
   },
   {
     key: 'unstyled-primitives',

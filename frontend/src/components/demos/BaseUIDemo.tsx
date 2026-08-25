@@ -1,103 +1,25 @@
-import React from 'react'
 import { Button } from '@base-ui/react/button'
+import './TailwindLibrarySlide.css'
 
-export const BaseUIDemo: React.FC = () => {
+export function BaseUIDemo() {
   return (
-    <div className="p-6 bg-[#0f1117] min-h-full">
-      <h2 className="text-3xl font-bold text-blue-400 mb-2">Base UI</h2>
-      <p className="text-gray-400 mb-6">
-        기능과 접근성은 제공, 스타일링 기술은 자유롭게 선택
-      </p>
+    <div className="tailwind-library-page">
+      <header className="tailwind-library-hero"><span>Unstyled / Primitives · Styling Freedom</span><h1>Base UI</h1><p>기능과 접근성은 제공하고, 스타일은 개발자가 원하는 방식으로 입히는 UI 기반</p></header>
+      <section className="tailwind-library-core"><p><strong>하나의 동작 기반</strong> → 여러 스타일링 방식 가능</p></section>
 
-      {/* Foundation → styling technologies */}
-      <div className="bg-slate-900 border border-slate-700 rounded-lg p-6 mb-6">
-        <h3 className="text-lg font-semibold text-blue-400 mb-4">
-          하나의 기반 → 여러 스타일 방식
-        </h3>
-        <div className="flex flex-col md:flex-row items-center gap-4">
-          {/* Foundation */}
-          <div className="bg-blue-600/20 border border-blue-500 rounded-lg px-6 py-4 text-center">
-            <div className="text-blue-300 font-semibold">Base UI</div>
-            <div className="text-gray-400 text-sm">구조 · 동작 · 접근성</div>
-          </div>
+      <section className="tailwind-library-comparison base-comparison">
+        <article className="accent-card"><span>Unstyled Foundation</span><h2>BASE UI CORE</h2><div className="foundation-stack"><strong>Structure</strong><strong>Behavior</strong><strong>Accessibility</strong></div><p className="card-caption">컴포넌트의 구조와 동작, 접근성 기반 제공</p></article>
+        <div className="comparison-arrow"><b>→</b></div>
+        <article><span>Same Button · Different Styles</span><h2>STYLING OPTIONS</h2><div className="styled-button-grid"><div><small>Tailwind</small><Button className="tailwind-example">Tailwind 버튼</Button></div><div><small>CSS</small><Button className="css-example">CSS 버튼</Button></div><div><small>CSS-in-JS</small><Button style={{ background: 'linear-gradient(135deg,#646cff,#38bdf8)', borderRadius: 999, color: 'white' }}>CSS-in-JS 버튼</Button></div></div></article>
+      </section>
 
-          <div className="text-blue-400 text-2xl font-bold">→</div>
+      <div className="source-statement"><strong>기능은 같고</strong>, 스타일링 방식만 달라진다</div>
 
-          {/* Styling options */}
-          <div className="flex flex-wrap gap-3">
-            {['Tailwind', 'CSS', 'CSS Modules', 'CSS-in-JS'].map(s => (
-              <div
-                key={s}
-                className="bg-slate-800 border border-slate-600 rounded-lg px-4 py-3 text-gray-200 font-semibold"
-              >
-                {s}
-              </div>
-            ))}
-          </div>
-        </div>
-        <p className="text-gray-400 text-sm mt-4">
-          같은 기능 / 다른 스타일 방식. 어떤 CSS 기술을 사용할지는 개발자가 선택합니다.
-        </p>
-      </div>
+      <section className="base-methods"><p><strong>Base UI</strong><span>동작 / 구조 제공</span></p><p><strong>Tailwind</strong><span>유틸리티 스타일링</span></p><p><strong>CSS</strong><span>전통적인 CSS</span></p><p><strong>CSS-in-JS</strong><span>JS 안에서 스타일 관리</span></p></section>
 
-      {/* Same primitive, different styling */}
-      <div className="bg-slate-900 border border-slate-700 rounded-lg p-6">
-        <h3 className="text-lg font-semibold text-blue-400 mb-4">
-          같은 Base UI 버튼, 다른 스타일
-        </h3>
-        <div className="grid md:grid-cols-3 gap-4">
-          {/* Tailwind style */}
-          <div className="bg-black/40 border border-slate-600 rounded-lg p-4">
-            <div className="text-gray-400 text-sm mb-3">Tailwind</div>
-            <Button
-              type="button"
-              className="px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700"
-            >
-              Tailwind 버튼
-            </Button>
-          </div>
+      <section className="tailwind-library-tradeoffs"><article><h3>장점</h3><ul className="four-items"><li>스타일링 기술 선택 자유</li><li>접근성과 기능 기반 제공</li><li>디자인 시스템 실험에 유리</li><li>특정 스타일 체계에 덜 묶임</li></ul></article><article><h3>한계</h3><ul><li>즉시 예쁜 완성 화면은 아님</li><li>스타일을 직접 설계해야 함</li></ul></article></section>
 
-          {/* Plain CSS style */}
-          <div className="bg-black/40 border border-slate-600 rounded-lg p-4">
-            <div className="text-gray-400 text-sm mb-3">일반 CSS</div>
-            <Button
-              type="button"
-              style={{
-                padding: '8px 16px',
-                background: '#4caf50',
-                color: 'white',
-                border: 'none',
-                borderRadius: '6px',
-                cursor: 'pointer',
-              }}
-            >
-              CSS 버튼
-            </Button>
-          </div>
-
-          {/* CSS-in-JS style */}
-          <div className="bg-black/40 border border-slate-600 rounded-lg p-4">
-            <div className="text-gray-400 text-sm mb-3">CSS-in-JS</div>
-            <Button
-              type="button"
-              style={{
-                padding: '8px 16px',
-                background: 'linear-gradient(135deg, #646cff, #535bf2)',
-                color: 'white',
-                border: 'none',
-                borderRadius: '9999px',
-                cursor: 'pointer',
-                boxShadow: '0 4px 12px rgba(100,108,255,0.3)',
-              }}
-            >
-              CSS-in-JS 버튼
-            </Button>
-          </div>
-        </div>
-        <p className="text-gray-400 text-sm mt-4">
-          동작과 접근성은 Base UI가 제공하고, 스타일은 각 방식으로 자유롭게 적용했습니다.
-        </p>
-      </div>
+      <footer className="tailwind-library-takeaway">Base UI는 스타일을 강요하지 않고, <strong>기능 기반 위에 원하는 디자인을 입히게 해준다.</strong></footer>
     </div>
   )
 }

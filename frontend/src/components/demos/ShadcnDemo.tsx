@@ -1,62 +1,55 @@
-import React from 'react'
+import './TailwindLibrarySlide.css'
 
-export const ShadcnDemo: React.FC = () => {
+export function ShadcnDemo() {
   return (
-    <div className="p-6 bg-[#0f1117] min-h-full">
-      <h2 className="text-3xl font-bold text-blue-400 mb-2">shadcn/ui</h2>
-      <p className="text-gray-400 mb-6">
-        컴포넌트 소스 코드를 내 프로젝트가 직접 소유하는 방식
-      </p>
+    <div className="tailwind-library-page">
+      <header className="tailwind-library-hero">
+        <span>Tailwind-Based · Source Ownership</span>
+        <h1>shadcn/ui</h1>
+        <p>컴포넌트 코드를 프로젝트 안으로 가져와 개발자가 직접 소유하고 수정하는 방식</p>
+      </header>
 
-      <div className="grid md:grid-cols-2 gap-6">
-        {/* Traditional library */}
-        <div className="bg-slate-900 border border-slate-700 rounded-lg p-6">
-          <h3 className="text-lg font-semibold text-blue-400 mb-4">일반 라이브러리</h3>
-          <div className="bg-black/40 border border-slate-700 rounded p-4 font-mono text-sm text-gray-300 leading-7">
-            <div>node_modules</div>
-            <div className="pl-4">└─ Library</div>
-            <div className="pl-8">└─ Button</div>
-            <div className="pl-4 text-gray-500">↓</div>
-            <div className="pl-4">import Button</div>
-            <div className="pl-4 text-gray-500">↓</div>
-            <div className="pl-4 text-gray-400">패키지 안에서 빌려 씀</div>
-          </div>
-          <p className="text-gray-400 text-sm mt-4">
-            기능 변경 시 지원되는 prop/API를 찾아야 함
-          </p>
-        </div>
+      <section className="tailwind-library-core two-part-core">
+        <p><strong>일반 라이브러리</strong><code>npm install</code><span>패키지를 의존해서 사용</span></p>
+        <b>VS</b>
+        <p><strong>shadcn/ui</strong><code>npx shadcn add button</code><span>실제 button.tsx가 프로젝트에 생성</span></p>
+      </section>
 
-        {/* shadcn/ui */}
-        <div className="bg-slate-900 border border-blue-500 rounded-lg p-6">
-          <h3 className="text-lg font-semibold text-blue-400 mb-4">shadcn/ui</h3>
-          <div className="bg-black/40 border border-blue-500 rounded p-4 font-mono text-sm text-gray-300 leading-7">
-            <div>내 프로젝트</div>
-            <div className="pl-4">└─ src</div>
-            <div className="pl-8">└─ components</div>
-            <div className="pl-12">└─ ui</div>
-            <div className="pl-16 text-blue-400">└─ button.tsx</div>
-            <div className="pl-16 text-gray-500">↑</div>
-            <div className="pl-16 text-gray-400">내가 직접 수정</div>
-          </div>
-          <p className="text-gray-400 text-sm mt-4">
-            button.tsx 자체를 열어 구조·스타일·기능을 직접 수정 가능
-          </p>
-        </div>
-      </div>
+      <section className="tailwind-library-comparison shadcn-comparison">
+        <article>
+          <span>Package Dependency</span><h2>일반 라이브러리</h2>
+          <pre><code>{`node_modules
+└── Library
+    └── Button
+        ↓
+    import Button
+        ↓
+      <Button />`}</code></pre>
+          <p className="card-caption">컴포넌트 내부 코드는 라이브러리가 관리</p>
+        </article>
+        <div className="comparison-arrow"><b>VS</b></div>
+        <article className="accent-card">
+          <span>Source Ownership</span><h2>shadcn/ui</h2>
+          <pre><code>{`src
+└── components
+    └── ui
+        └── button.tsx
+              ↓
+      button.tsx 직접 열기
+              ↓
+      구조 / 스타일 / 기능 수정`}</code></pre>
+          <p className="card-caption strong-caption">컴포넌트 코드의 모든 줄을 내가 직접 수정 가능</p>
+        </article>
+      </section>
 
-      {/* Benefits */}
-      <div className="bg-slate-900 border border-slate-700 rounded-lg p-6 mt-6">
-        <h3 className="text-lg font-semibold text-blue-400 mb-3">소스 코드 소유의 장점</h3>
-        <ul className="text-gray-300 space-y-2">
-          <li>• 내부 구조까지 자유롭게 수정 가능</li>
-          <li>• 프로젝트 전용 variant 추가 가능</li>
-          <li>• 필요 없는 코드 제거 가능</li>
-          <li>• 자체 디자인 시스템에 깊게 맞출 수 있음</li>
-        </ul>
-        <p className="text-gray-400 text-sm mt-4">
-          단점: 코드 유지보수 책임도 개발자에게 생긴다.
-        </p>
-      </div>
+      <div className="source-statement">컴포넌트 코드 자체가 <strong>내 프로젝트</strong>에 들어온다</div>
+
+      <section className="tailwind-library-tradeoffs">
+        <article><h3>장점</h3><ul className="four-items"><li>코드 모든 줄 수정 가능</li><li>프로젝트 전용 variant 추가</li><li>필요 없는 코드 삭제</li><li>자체 디자인 시스템에 깊게 맞춤</li></ul></article>
+        <article><h3>한계</h3><ul><li>가져온 코드의 유지보수 책임도 개발자에게 있음</li></ul></article>
+      </section>
+
+      <footer className="tailwind-library-takeaway">일반 라이브러리는 컴포넌트를 빌려 쓰고, <strong>shadcn/ui는 코드를 가져와 직접 소유한다.</strong></footer>
     </div>
   )
 }
