@@ -9,6 +9,7 @@ import { ReactAriaDemo } from './components/demos/ReactAriaDemo'
 import { RadixUIDemo } from './components/demos/RadixUIDemo'
 import { BaseUIDemo } from './components/demos/BaseUIDemo'
 import { MantineDemo } from './components/demos/MantineDemo'
+import { MantineComponentsExample, MantineWorkflowExample } from './components/demos/MantineDetailSlides'
 import { MainLayout } from './components/MainLayout'
 import { IntroScreen } from './components/IntroScreen'
 import { UILibraryConcept } from './components/UILibraryConcept'
@@ -29,6 +30,8 @@ import { categories, libraryMeta } from './data/libraryData'
 import { checkHealth } from './services/api'
 import { CommandReceiver, CommandAction, RemoteStatus } from './services/voice'
 import './App.css'
+import './components/PresentationSlides.css'
+import './components/demos/DemoSlides.css'
 
 const libraries: { key: LibraryKey; name: string }[] = [
   { key: 'material-ui', name: 'Material UI' },
@@ -173,8 +176,8 @@ function App() {
           : category === 'tailwind-based'
             ? 'tailwind-overview'
             : category === 'unstyled-primitives'
-            ? 'library-demo'
-            : 'category-lecture',
+              ? 'library-demo'
+              : 'library-demo',
         firstLib
       )
     }
@@ -199,6 +202,8 @@ function App() {
     const idx = categories.findIndex(c => c.key === navRef.current.currentCategory)
     if (idx < categories.length - 1) {
       handleCategorySelect(categories[idx + 1].key)
+    } else {
+      navigate('decision-guide', navRef.current.currentLibrary)
     }
   }
 
@@ -210,6 +215,16 @@ function App() {
   }
 
   const handleNextLibrary = () => {
+    if (navRef.current.currentLibrary === 'mantine') {
+      if (navRef.current.currentScreen === 'library-demo') {
+        navigate('mantine-components', 'mantine')
+      } else if (navRef.current.currentScreen === 'mantine-components') {
+        navigate('mantine-workflow', 'mantine')
+      } else {
+        navigate('decision-guide', 'mantine')
+      }
+      return
+    }
     if (
       navRef.current.currentLibrary === 'ant-design'
       && (navRef.current.currentScreen === 'library-demo'
@@ -227,15 +242,21 @@ function App() {
       return
     }
     if (navRef.current.currentLibrary === 'headless-ui') {
-      handleLibrarySelect('shadcn')
+      if (navRef.current.currentScreen === 'library-demo') {
+        navigate('headless-ui-interaction', 'headless-ui')
+      } else {
+        handleLibrarySelect('shadcn')
+      }
       return
     }
     if (
       navRef.current.currentLibrary === 'shadcn'
-      && (navRef.current.currentScreen === 'library-demo'
-        || navRef.current.currentScreen === 'lecture-content')
     ) {
-      showTailwindSummary()
+      if (navRef.current.currentScreen === 'library-demo') {
+        navigate('shadcn-customization', 'shadcn')
+      } else {
+        showTailwindSummary()
+      }
       return
     }
     if (
@@ -253,6 +274,16 @@ function App() {
   }
 
   const handlePrevLibrary = () => {
+    if (navRef.current.currentLibrary === 'mantine') {
+      if (navRef.current.currentScreen === 'mantine-workflow') {
+        navigate('mantine-components', 'mantine')
+      } else if (navRef.current.currentScreen === 'mantine-components') {
+        navigate('library-demo', 'mantine')
+      } else {
+        showUnstyledSummary()
+      }
+      return
+    }
     if (navRef.current.currentLibrary === 'chakra-ui') {
       navigate('ant-design-enterprise', 'ant-design')
       return
@@ -261,8 +292,19 @@ function App() {
       navigate('tailwind-overview', 'daisyui')
       return
     }
+    if (
+      navRef.current.currentLibrary === 'headless-ui'
+      && navRef.current.currentScreen === 'headless-ui-interaction'
+    ) {
+      navigate('library-demo', 'headless-ui')
+      return
+    }
     if (navRef.current.currentLibrary === 'shadcn') {
-      handleLibrarySelect('headless-ui')
+      if (navRef.current.currentScreen === 'shadcn-customization') {
+        navigate('library-demo', 'shadcn')
+      } else {
+        navigate('headless-ui-interaction', 'headless-ui')
+      }
       return
     }
     const currentIndex = libraries.findIndex(lib => lib.key === navRef.current.currentLibrary)
@@ -277,6 +319,21 @@ function App() {
       return
     }
     handlePrevLibrary()
+  }
+
+  const handlePresentationPrevious = () => {
+    if (
+      navRef.current.currentScreen === 'category-lecture'
+      && navRef.current.currentCategory === 'tailwind-based'
+    ) {
+      navigate('shadcn-customization', 'shadcn')
+      return
+    }
+    handlePrevCategory()
+  }
+
+  const handleDecisionGuidePrevious = () => {
+    navigate('mantine-workflow', 'mantine')
   }
 
   const openOfficialSite = (url: string) => {
@@ -309,14 +366,11 @@ function App() {
           navigate('library-demo', 'chakra-ui')
         } else if (nav.currentScreen === 'design-system-customization') {
           showDesignSystemsSummary()
+        } else if (nav.currentScreen === 'decision-guide') {
+          navigate('closing', nav.currentLibrary)
         } else if (nav.currentScreen === 'tailwind-overview') {
           navigate('library-demo', 'daisyui')
-        } else if (
-          nav.currentScreen === 'category-lecture'
-          && (nav.currentCategory === 'design-systems'
-            || nav.currentCategory === 'tailwind-based'
-            || nav.currentCategory === 'unstyled-primitives')
-        ) {
+        } else if (nav.currentScreen === 'category-lecture') {
           handleNextCategory()
         } else {
           handleNextLibrary()
@@ -342,23 +396,16 @@ function App() {
           navigate('mui-x-detail', 'material-ui')
         } else if (
           nav.currentScreen === 'category-lecture'
-          && nav.currentCategory === 'design-systems'
         ) {
-          navigate('design-system-customization', 'chakra-ui')
+          handlePresentationPrevious()
         } else if (nav.currentScreen === 'design-system-customization') {
           navigate('library-demo', 'chakra-ui')
+        } else if (nav.currentScreen === 'decision-guide') {
+          handleDecisionGuidePrevious()
+        } else if (nav.currentScreen === 'closing') {
+          navigate('decision-guide', nav.currentLibrary)
         } else if (nav.currentScreen === 'tailwind-overview') {
           showDesignSystemsSummary()
-        } else if (
-          nav.currentScreen === 'category-lecture'
-          && nav.currentCategory === 'tailwind-based'
-        ) {
-          navigate('library-demo', 'shadcn')
-        } else if (
-          nav.currentScreen === 'category-lecture'
-          && nav.currentCategory === 'unstyled-primitives'
-        ) {
-          navigate('library-demo', 'base-ui')
         } else {
           handlePrevLibrary()
         }
@@ -467,6 +514,8 @@ function App() {
       : currentLibrary
   const showTailwindSteps = (
     currentScreen === 'tailwind-overview'
+    || currentScreen === 'headless-ui-interaction'
+    || currentScreen === 'shadcn-customization'
     || currentScreen === 'library-demo'
     || currentScreen === 'lecture-content'
     || (currentScreen === 'category-lecture' && currentCategory === 'tailwind-based')
@@ -495,6 +544,55 @@ function App() {
     (currentScreen === 'library-demo' && currentLibrary === 'ant-design')
     || currentScreen === 'ant-design-enterprise'
   )
+  const currentCategoryIndex = categories.findIndex(category => category.key === currentCategory)
+  const isFirstCategory = currentCategoryIndex <= 0
+  const isLastCategory = currentCategoryIndex === categories.length - 1
+  const demoLocationLabel = currentScreen === 'mantine-components'
+    ? 'Mantine 2 / 3 · Components'
+    : currentScreen === 'mantine-workflow'
+      ? 'Mantine 3 / 3 · Workflow'
+      : currentLibrary === 'mantine'
+        ? 'Fast Development / All-in-One · Mantine'
+        : currentScreen === 'headless-ui-interaction'
+      ? 'Headless UI 2 / 2'
+      : currentScreen === 'shadcn-customization'
+        ? 'shadcn/ui 2 / 2'
+        : currentScreen === 'library-demo' && currentLibrary === 'headless-ui'
+          ? 'Headless UI 1 / 2'
+          : currentScreen === 'library-demo' && currentLibrary === 'shadcn'
+            ? 'shadcn/ui 1 / 2'
+            : libraryName
+  const isSplitTailwindPresentation = (
+    currentScreen === 'headless-ui-interaction'
+    || currentScreen === 'shadcn-customization'
+    || (currentScreen === 'library-demo' && ['headless-ui', 'shadcn'].includes(currentLibrary))
+  )
+  const isMantineDetailPresentation = currentScreen === 'mantine-components'
+    || currentScreen === 'mantine-workflow'
+  const isDemoPresentation = currentScreen === 'library-demo'
+    || currentScreen === 'headless-ui-interaction'
+    || currentScreen === 'shadcn-customization'
+    || isMantineDetailPresentation
+  const demoPreviousLabel = currentScreen === 'mantine-components'
+    ? '← Mantine 개요'
+    : currentScreen === 'mantine-workflow'
+      ? '← Mantine 실제 예시 1'
+      : currentScreen === 'headless-ui-interaction'
+        ? '← Headless UI 1 / 2'
+        : currentScreen === 'shadcn-customization'
+          ? '← shadcn/ui 1 / 2'
+          : '← Previous'
+  const demoNextLabel = currentScreen === 'mantine-components'
+    ? '실제 예시 2 →'
+    : currentScreen === 'mantine-workflow'
+      ? 'Decision Guide →'
+      : currentScreen === 'headless-ui-interaction'
+        ? 'shadcn/ui →'
+        : currentScreen === 'shadcn-customization'
+          ? '비교 정리 →'
+          : currentLibrary === 'mantine'
+            ? '실제 예시 1 →'
+            : 'Next →'
 
   return (
     <MainLayout
@@ -692,22 +790,10 @@ function App() {
 
           <div className="lecture-navigation">
             <button
-              onClick={currentCategory === 'design-systems'
-                ? () => navigate('design-system-customization', 'chakra-ui')
-                : currentCategory === 'tailwind-based'
-                  ? () => navigate('library-demo', 'shadcn')
-                  : currentCategory === 'unstyled-primitives'
-                    ? () => navigate('library-demo', 'base-ui')
-                    : handlePrevCategory}
-              disabled={false}
+              onClick={handlePresentationPrevious}
+              disabled={isFirstCategory}
             >
-              {currentCategory === 'design-systems'
-                ? '← 커스터마이징'
-                : currentCategory === 'tailwind-based'
-                  ? '← shadcn/ui'
-                  : currentCategory === 'unstyled-primitives'
-                    ? '← Base UI'
-                    : '← Previous Category'}
+              {currentCategory === 'tailwind-based' ? '← shadcn/ui 2 / 2' : '← Previous Category'}
             </button>
 
             <button
@@ -717,23 +803,11 @@ function App() {
             </button>
 
             <button
-              onClick={handleNextCategory}
-              disabled={currentCategory === 'fast-development'}
+              onClick={isLastCategory
+                ? () => navigate('decision-guide', currentLibrary)
+                : handleNextCategory}
             >
-              Next Category →
-            </button>
-          </div>
-
-          <div className="lecture-actions">
-            <button
-              onClick={() => navigate('decision-guide', currentLibrary)}
-            >
-              Decision Guide →
-            </button>
-            <button
-              onClick={() => navigate('intro', currentLibrary)}
-            >
-              Home
+              {isLastCategory ? 'Decision Guide →' : 'Next Category →'}
             </button>
           </div>
         </div>
@@ -745,9 +819,9 @@ function App() {
 
           <div className="lecture-navigation">
             <button
-              onClick={() => navigate('library-overview', currentLibrary)}
+              onClick={handleDecisionGuidePrevious}
             >
-              ← Overview
+              ← Mantine 실제 예시 2
             </button>
             <button
               onClick={() => navigate('closing', currentLibrary)}
@@ -766,11 +840,19 @@ function App() {
         </div>
       )}
 
-      {currentScreen === 'library-demo' && (
-        <div className="demo-screen">
+      {isDemoPresentation && (
+        <div className={`demo-screen${isSplitTailwindPresentation ? ' split-demo-screen' : ''}${isMantineDetailPresentation ? ' mantine-detail-demo-screen' : ''}`}>
           <div className="demo-container">
             <div className="demo-main">
-              <DemoComponent />
+              {currentScreen === 'headless-ui-interaction'
+                ? <HeadlessUIDemo screen={2} />
+                : currentScreen === 'shadcn-customization'
+                  ? <ShadcnDemo screen={2} />
+                  : currentScreen === 'mantine-components'
+                    ? <MantineComponentsExample />
+                    : currentScreen === 'mantine-workflow'
+                      ? <MantineWorkflowExample />
+                      : <DemoComponent />}
             </div>
           </div>
 
@@ -778,26 +860,25 @@ function App() {
             <button
               onClick={handleDemoPrevious}
             >
-              ← Previous
+              {demoPreviousLabel}
             </button>
 
             <span className="demo-info">
-              {libraryName}
+              {demoLocationLabel}
             </span>
 
             <button
               onClick={handleNextLibrary}
-              disabled={currentLibrary === 'mantine'}
             >
-              Next →
+              {demoNextLabel}
             </button>
           </div>
 
-          <div className="demo-actions">
+          {!isSplitTailwindPresentation && <div className="demo-actions">
             <button
               onClick={() => navigate('library-overview', currentLibrary)}
             >
-              ← Back to Overview
+              Overview
             </button>
 
             <button
@@ -812,12 +893,7 @@ function App() {
               Official Site ↗
             </button>
 
-            <button
-              onClick={() => navigate('intro', currentLibrary)}
-            >
-              Home
-            </button>
-          </div>
+          </div>}
         </div>
       )}
 
@@ -840,9 +916,8 @@ function App() {
 
             <button
               onClick={handleNextLibrary}
-              disabled={currentLibrary === 'mantine'}
             >
-              Next Library →
+              {currentLibrary === 'mantine' ? 'Decision Guide →' : 'Next Library →'}
             </button>
           </div>
 

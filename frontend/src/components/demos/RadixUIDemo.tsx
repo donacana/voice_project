@@ -1,31 +1,48 @@
-import React from 'react'
 import * as Dialog from '@radix-ui/react-dialog'
-import './TailwindLibrarySlide.css'
-
-const primitives = ['Dialog', 'Dropdown Menu', 'Tooltip', 'Popover', 'Tabs', 'Accordion']
 
 export function RadixUIDemo() {
-  const [open, setOpen] = React.useState(false)
   return (
-    <div className="tailwind-library-page">
-      <header className="tailwind-library-hero"><span>Unstyled / Primitives · Building Blocks</span><h1>Radix UI</h1><p>접근성과 동작이 구현된 작은 UI 부품으로 내 디자인 시스템을 조립하는 방식</p></header>
-      <section className="tailwind-library-core"><p>완성품이 아니라, <strong>잘 만들어진 UI 부품 블록</strong>을 제공</p></section>
+    <section className="library-demo-slide">
+      <header className="library-demo-header">
+        <div><span className="demo-eyebrow">Primitives · Accessible Building Blocks</span><h1>Radix UI</h1></div>
+        <p>Radix가 Dialog의 동작과 접근성을 제공하고, 최종 디자인은 개발자가 입힙니다.</p>
+      </header>
 
-      <section className="tailwind-library-comparison">
-        <article className="accent-card"><span>Accessible Building Blocks</span><h2>RADIX PRIMITIVES</h2><div className="primitive-chips">{primitives.map(item => <span key={item}>{item}</span>)}</div><p className="card-caption">열기/닫기 · Focus · Keyboard · ARIA 동작 포함</p></article>
-        <div className="comparison-arrow"><b>+</b></div>
-        <article><span>Visual Rules</span><h2>MY DESIGN SYSTEM</h2><div className="design-chips">{['우리 색상', '우리 spacing', '우리 radius', '우리 animation', '우리 layout'].map(item => <span key={item}>{item}</span>)}</div></article>
-      </section>
+      <div className="radix-flow-grid">
+        <article className="radix-stage">
+          <h2>1. Primitive</h2>
+          <p>기능만 확인하는 기본 상태</p>
+          <div className="radix-basic-preview"><button type="button">Open dialog</button></div>
+        </article>
 
-      <div className="flow-equation"><strong>Radix Primitive</strong><b>+</b><strong>My Style</strong><b>↓</b><strong>Custom Dialog / Menu / Tooltip</strong></div>
+        <div className="radix-flow-arrow" aria-hidden="true">→</div>
 
-      <section className="preview-and-tradeoffs">
-        <article className="compact-preview"><h3>Dialog Primitive + 우리 스타일</h3><Dialog.Root open={open} onOpenChange={setOpen}><Dialog.Trigger asChild><button className="dialog-trigger">Dialog 열기</button></Dialog.Trigger><div className={`dialog-mock ${open ? 'visible' : ''}`}><strong>회원가입 확인</strong><span>Focus · Escape · ARIA는 Radix가 처리</span><Dialog.Close asChild><button>닫기</button></Dialog.Close></div></Dialog.Root></article>
-        <div className="mini-tradeoffs"><article><h3>장점</h3><ul><li>접근성과 동작이 안정적</li><li>디자인 제어권이 큼</li><li>디자인 시스템 구축에 적합</li></ul></article><article><h3>한계</h3><ul><li>기본 완성 디자인 없음</li><li>스타일링 필요</li><li>Primitive 개념이 낯설 수 있음</li></ul></article></div>
-      </section>
+        <article className="radix-stage">
+          <h2>2. Custom styled</h2>
+          <p>동일한 Dialog primitive에 우리 디자인 적용</p>
+          <div className="radix-styled-dialog">
+            <strong>프로젝트 초대</strong>
+            <p>Focus trap · Escape · ARIA는 Radix가 처리합니다.</p>
+            <Dialog.Root>
+              <Dialog.Trigger asChild><button className="radix-dialog-trigger">실제 Dialog 열기</button></Dialog.Trigger>
+              <Dialog.Portal>
+                <Dialog.Overlay className="radix-overlay" />
+                <Dialog.Content className="radix-dialog-content">
+                  <Dialog.Title>프로젝트 초대</Dialog.Title>
+                  <Dialog.Description>접근성 동작 위에 개발자가 원하는 디자인을 적용했습니다.</Dialog.Description>
+                  <Dialog.Close asChild><button className="radix-dialog-close">확인</button></Dialog.Close>
+                </Dialog.Content>
+              </Dialog.Portal>
+            </Dialog.Root>
+          </div>
+        </article>
+      </div>
 
-      <div className="source-statement">LEGO 완성품이 아니라, <strong>고품질 부품을 받아 내 방식으로 조립</strong>하는 라이브러리</div>
-      <footer className="tailwind-library-takeaway">Radix UI는 완성된 컴포넌트보다, <strong>조립 가능한 고품질 UI 부품</strong>에 가깝다.</footer>
-    </div>
+      <div className="radix-behavior-strip">
+        {['Focus trap', 'Escape close', 'ARIA labeling', 'Keyboard navigation'].map(item => <span key={item}>{item}</span>)}
+      </div>
+
+      <div className="demo-thesis">Primitive = behavior / accessibility · Design System = color / spacing / motion</div>
+    </section>
   )
 }

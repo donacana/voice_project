@@ -1,147 +1,113 @@
 import React from 'react'
 import {
   AppBar,
-  Toolbar,
-  Typography,
+  Avatar,
+  Box,
+  Button,
   Card,
   CardContent,
-  Button,
-  Box,
+  Chip,
   Grid,
-  Paper,
-  Avatar,
   List,
   ListItem,
   ListItemAvatar,
   ListItemText,
-  Divider,
-  Chip,
+  Paper,
+  Toolbar,
+  Typography,
 } from '@mui/material'
 
-// Small component-structure code example shown alongside the dashboard.
-const structureCode = `// 완성된 화면 = 컴포넌트 조합
-<AppBar />   // 상단 앱 바
-<Card />     // 데이터 카드
-<Button />   // 액션 버튼
-<Grid />     // 레이아웃`
+const activity = [
+  { name: 'Kim Min', action: 'placed an order', time: '2m ago' },
+  { name: 'Lee Soo', action: 'updated profile', time: '15m ago' },
+  { name: 'Park Ji', action: 'requested refund', time: '1h ago' },
+]
 
-export const MaterialUIDemo: React.FC = () => {
-  return (
-    <Box sx={{ bgcolor: '#0f1117', minHeight: '100%', color: '#e0e0e0' }}>
-      {/* AppBar */}
-      <AppBar position="static" sx={{ bgcolor: '#1976d2' }}>
-        <Toolbar>
-          <Typography variant="h6" sx={{ flexGrow: 1, fontWeight: 700 }}>
-            Dashboard
-          </Typography>
-          <Button color="inherit">Home</Button>
-          <Button color="inherit">Reports</Button>
-          <Button color="inherit">Settings</Button>
-        </Toolbar>
-      </AppBar>
+const stats = [
+  { label: 'Revenue', value: '₩1,240,000', change: '+12.5% this week' },
+  { label: 'Users', value: '1,280', change: '+48 this week' },
+  { label: 'Orders', value: '342', change: '24 pending' },
+]
 
-      <Box sx={{ p: 3 }}>
-        {/* Stat cards */}
-        <Grid container spacing={3} sx={{ mb: 3 }}>
-          <Grid size={{ xs: 12, sm: 6, md: 4 }}>
-            <Card sx={{ bgcolor: '#1a1d27', color: '#e0e0e0' }}>
-              <CardContent>
-                <Typography color="#9ca3af" variant="subtitle2">Revenue</Typography>
-                <Typography variant="h4" sx={{ fontWeight: 700, color: '#4caf50' }}>
-                  ₩1,240,000
-                </Typography>
-                <Typography variant="caption" color="#9ca3af">+12.5% this week</Typography>
-              </CardContent>
-            </Card>
-          </Grid>
-          <Grid size={{ xs: 12, sm: 6, md: 4 }}>
-            <Card sx={{ bgcolor: '#1a1d27', color: '#e0e0e0' }}>
-              <CardContent>
-                <Typography color="#9ca3af" variant="subtitle2">Users</Typography>
-                <Typography variant="h4" sx={{ fontWeight: 700, color: '#646cff' }}>
-                  1,280
-                </Typography>
-                <Typography variant="caption" color="#9ca3af">+48 new this week</Typography>
-              </CardContent>
-            </Card>
-          </Grid>
-          <Grid size={{ xs: 12, sm: 6, md: 4 }}>
-            <Card sx={{ bgcolor: '#1a1d27', color: '#e0e0e0' }}>
-              <CardContent>
-                <Typography color="#9ca3af" variant="subtitle2">Orders</Typography>
-                <Typography variant="h4" sx={{ fontWeight: 700, color: '#ff9800' }}>
-                  342
-                </Typography>
-                <Typography variant="caption" color="#9ca3af">24 pending</Typography>
-              </CardContent>
-            </Card>
-          </Grid>
-        </Grid>
+export const MaterialUIDemo: React.FC = () => (
+  <Box
+    className="mui-demo-root"
+    sx={{ bgcolor: '#f4f6f8', minHeight: 'min(650px, 72vh)', borderRadius: 5, overflow: 'hidden' }}
+  >
+    <AppBar position="static" color="primary" elevation={1}>
+      <Toolbar>
+        <Typography variant="h6" sx={{ flexGrow: 1, fontWeight: 800 }}>
+          Material Dashboard
+        </Typography>
+        <Button color="inherit">Reports</Button>
+        <Button color="inherit">Settings</Button>
+      </Toolbar>
+    </AppBar>
 
-        <Grid container spacing={3}>
-          {/* Recent activity list */}
-          <Grid size={{ xs: 12, md: 7 }}>
-            <Paper sx={{ bgcolor: '#1a1d27', p: 2 }}>
-              <Typography variant="h6" sx={{ mb: 2, color: '#e0e0e0' }}>
-                Recent Activity
-              </Typography>
-              <List>
-                {[
-                  { name: 'Kim Min', action: 'placed an order', time: '2m ago', color: '#646cff' },
-                  { name: 'Lee Soo', action: 'updated profile', time: '15m ago', color: '#4caf50' },
-                  { name: 'Park Ji', action: 'requested refund', time: '1h ago', color: '#ff9800' },
-                  { name: 'Choi Han', action: 'signed up', time: '3h ago', color: '#f44336' },
-                ].map((item, i) => (
-                  <React.Fragment key={i}>
-                    <ListItem sx={{ px: 0 }}>
-                      <ListItemAvatar>
-                        <Avatar sx={{ bgcolor: item.color }}>{item.name[0]}</Avatar>
-                      </ListItemAvatar>
-                      <ListItemText
-                        primary={<span style={{ color: '#e0e0e0' }}>{item.name} <span style={{ color: '#9ca3af' }}>{item.action}</span></span>}
-                        secondary={item.time}
-                        slotProps={{ secondary: { sx: { color: '#6b7280' } } }}
-                      />
-                      <Chip label="Active" size="small" sx={{ bgcolor: 'rgba(76,175,80,0.15)', color: '#4caf50' }} />
-                    </ListItem>
-                    {i < 3 && <Divider sx={{ borderColor: '#2a2d38' }} />}
-                  </React.Fragment>
-                ))}
-              </List>
-            </Paper>
-          </Grid>
-
-          {/* Structure code example */}
-          <Grid size={{ xs: 12, md: 5 }}>
-            <Paper sx={{ bgcolor: '#1a1d27', p: 2 }}>
-              <Typography variant="h6" sx={{ mb: 2, color: '#e0e0e0' }}>
-                완성형 = 컴포넌트 조합
-              </Typography>
-              <Box
-                component="pre"
-                sx={{
-                  bgcolor: 'rgba(0,0,0,0.4)',
-                  border: '1px solid #444',
-                  borderRadius: 1,
-                  p: 2,
-                  color: '#10b981',
-                  fontFamily: 'Courier New, monospace',
-                  fontSize: '0.85rem',
-                  lineHeight: 1.8,
-                  m: 0,
-                  overflowX: 'auto',
-                }}
-              >
-                {structureCode}
-              </Box>
-              <Typography variant="body2" color="#9ca3af" sx={{ mt: 2 }}>
-                Material UI는 디자인이 적용된 완성형 컴포넌트를 조합해
-                빠르게 완성된 앱 화면을 만듭니다.
-              </Typography>
-            </Paper>
-          </Grid>
-        </Grid>
+    <Box sx={{ p: { xs: 2, md: 3 } }}>
+      <Box sx={{ mb: 2 }}>
+        <Typography variant="h4" sx={{ color: '#172033', fontWeight: 800 }}>
+          컴포넌트를 조합하면 앱 화면이 된다
+        </Typography>
+        <Typography sx={{ color: '#526071', fontWeight: 600 }}>
+          AppBar · Card · List · Chip · Button에 Material Design 규칙이 이미 적용되어 있습니다.
+        </Typography>
       </Box>
+
+      <Grid container spacing={2} sx={{ mb: 2 }}>
+        {stats.map(stat => (
+          <Grid key={stat.label} size={{ xs: 12, sm: 4 }}>
+            <Card elevation={1} sx={{ height: '100%' }}>
+              <CardContent>
+                <Typography color="text.secondary" variant="subtitle2">{stat.label}</Typography>
+                <Typography variant="h4" color="text.primary" sx={{ my: .5, fontWeight: 800 }}>
+                  {stat.value}
+                </Typography>
+                <Typography variant="caption" color="success.main" sx={{ fontWeight: 700 }}>
+                  {stat.change}
+                </Typography>
+              </CardContent>
+            </Card>
+          </Grid>
+        ))}
+      </Grid>
+
+      <Grid container spacing={2}>
+        <Grid size={{ xs: 12, md: 7 }}>
+          <Paper elevation={1} sx={{ p: 2, height: '100%' }}>
+            <Typography variant="h6" color="text.primary" sx={{ fontWeight: 750 }}>
+              Recent activity
+            </Typography>
+            <List dense>
+              {activity.map(item => (
+                <ListItem key={item.name} disableGutters>
+                  <ListItemAvatar>
+                    <Avatar sx={{ bgcolor: 'secondary.main' }}>{item.name[0]}</Avatar>
+                  </ListItemAvatar>
+                  <ListItemText primary={`${item.name} · ${item.action}`} secondary={item.time} />
+                  <Chip label="Active" color="success" size="small" variant="outlined" />
+                </ListItem>
+              ))}
+            </List>
+          </Paper>
+        </Grid>
+
+        <Grid size={{ xs: 12, md: 5 }}>
+          <Paper elevation={1} sx={{ display: 'flex', height: '100%', flexDirection: 'column', p: 2 }}>
+            <Typography variant="h6" color="text.primary" sx={{ fontWeight: 750 }}>
+              Material action
+            </Typography>
+            <Typography variant="body2" color="text.secondary" sx={{ mt: .5 }}>
+              Primary · outlined · text variant만 선택해도 일관된 상태와 간격을 얻습니다.
+            </Typography>
+            <Box sx={{ display: 'flex', flexWrap: 'wrap', gap: 1, mt: 'auto', pt: 2 }}>
+              <Button variant="contained">Create report</Button>
+              <Button variant="outlined">Export</Button>
+              <Button variant="text">Details</Button>
+            </Box>
+          </Paper>
+        </Grid>
+      </Grid>
     </Box>
-  )
-}
+  </Box>
+)

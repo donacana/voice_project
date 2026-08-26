@@ -1,51 +1,45 @@
-import './TailwindLibrarySlide.css'
+const tailwindCode = `<button className="
+  bg-blue-500 text-white
+  px-4 py-2 rounded-lg
+  font-bold shadow-md
+">
+  저장
+</button>`
+
+const daisyCode = `<button className="btn btn-primary">
+  저장
+</button>`
 
 export function DaisyUIDemo() {
   return (
-    <div className="tailwind-library-page">
-      <header className="tailwind-library-hero">
-        <span>Tailwind-Based · Semantic Classes</span>
-        <h1>daisyUI</h1>
-        <p>Tailwind의 긴 Utility Class 조합을 짧은 Semantic Component Class로 줄여주는 라이브러리</p>
+    <section className="library-demo-slide">
+      <header className="library-demo-header">
+        <div><span className="demo-eyebrow">Tailwind-Based · Semantic Classes</span><h1>daisyUI</h1></div>
+        <p>긴 utility 조합을 <strong>btn · card · alert</strong> 같은 의미 있는 이름으로 줄입니다.</p>
       </header>
 
-      <section className="tailwind-library-core two-part-core">
-        <p><strong>Tailwind</strong><span>스타일 속성을 작은 클래스로 직접 조합</span></p>
-        <b>→</b>
-        <p><strong>daisyUI</strong><span>자주 쓰는 조합을 btn, card, alert 같은 이름으로 제공</span></p>
-      </section>
+      <div className="demo-thesis">코드는 짧아지지만 실제 결과는 거의 같다</div>
 
-      <section className="tailwind-library-comparison">
-        <article>
-          <span>Utility Classes</span><h2>Tailwind CSS</h2>
-          <pre><code>{`<button className="
-  bg-blue-500
-  text-white
-  px-4 py-2
-  rounded-lg font-bold
-">
-  저장
-</button>`}</code></pre>
-          <div className="button-preview"><button type="button">저장</button></div>
+      <div className="daisy-comparison-grid">
+        <article className="daisy-code-card">
+          <div><span className="demo-eyebrow">긴 클래스 조합</span><h2>Tailwind CSS</h2></div>
+          <pre className="demo-code"><code>{tailwindCode}</code></pre>
+          <div className="daisy-result"><button type="button" className="daisy-visual-button">저장</button></div>
+          <p>색상·간격·radius·shadow를 각각 작성</p>
         </article>
-        <div className="comparison-arrow"><small>긴 클래스 조합</small><b>→</b><code>btn btn-primary</code></div>
-        <article className="accent-card">
-          <span>Semantic Classes</span><h2>daisyUI</h2>
-          <pre><code>{`<button className="btn btn-primary">
-  저장
-</button>`}</code></pre>
-          <div className="button-preview"><button type="button">저장</button></div>
+
+        <article className="daisy-code-card">
+          <div><span className="demo-eyebrow">짧은 의미 클래스</span><h2>daisyUI</h2></div>
+          <pre className="demo-code"><code>{daisyCode}</code></pre>
+          <div className="daisy-result"><button type="button" className="daisy-visual-button">저장</button></div>
+          <p><code>btn btn-primary</code>가 같은 버튼 규칙을 묶어서 제공</p>
         </article>
-      </section>
+      </div>
 
-      <div className="class-collapse"><code>bg-blue-500 + text-white + px-4 + py-2 + rounded-lg</code><b>↓</b><code>btn btn-primary</code></div>
-
-      <section className="tailwind-library-tradeoffs">
-        <article><h3>장점</h3><ul><li>className이 짧아짐</li><li>버튼·카드·모달을 빠르게 제작</li><li>Tailwind와 함께 사용 가능</li></ul></article>
-        <article><h3>한계</h3><ul><li>daisyUI의 클래스 체계를 사용</li><li>독특한 디자인은 추가 Tailwind 수정 필요</li></ul></article>
-      </section>
-
-      <footer className="tailwind-library-takeaway">Tailwind의 스타일 조합을 자주 쓰는 UI 이름으로 묶은 것이 <strong>daisyUI</strong></footer>
-    </div>
+      <div className="demo-fact-strip">
+        <div><strong>Strength</strong>반복되는 Tailwind 조합을 빠르게 축약</div>
+        <div><strong>Trade-off</strong>daisyUI의 semantic class와 테마 체계를 학습</div>
+      </div>
+    </section>
   )
 }

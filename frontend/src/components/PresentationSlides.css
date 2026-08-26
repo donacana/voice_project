@@ -1,0 +1,159 @@
+/* Editorial presentation surfaces shared by the individual lecture slides. */
+.ui-concept,.mui-overview,.mui-division,.mui-x-detail,.ant-enterprise,.ds-customization,.tailwind-overview,.tailwind-library-page {
+  width:100%; min-width:0; display:flex; flex-direction:column; gap:.9rem;
+}
+.ui-concept-hero,.mui-overview-hero,.mui-division-hero,.mui-x-detail-hero,.ant-enterprise-hero,.ds-customization-hero,.tailwind-overview-hero,.tailwind-library-hero {
+  position:relative; padding:clamp(1.8rem,3.5vw,3rem); overflow:hidden; border:2px solid var(--border-soft); border-radius:14px; background:var(--ppt-brown); color:var(--text-on-dark); text-align:center; box-shadow:none;
+}
+.ui-concept-hero::before,.mui-overview-hero::before,.mui-division-hero::before,.mui-x-detail-hero::before,.ant-enterprise-hero::before,.ds-customization-hero::before,.tailwind-overview-hero::before,.tailwind-library-hero::before {
+  content:""; position:absolute; inset:0 auto 0 0; width:0;
+}
+.ui-concept-kicker,.ui-concept-stage,.mui-overview-kicker,.mui-overview-hero>span,.mui-division-hero>span,.mui-x-detail-hero>span,.ant-enterprise-hero>span,.ds-customization-hero>span,.tailwind-overview-hero>span,.tailwind-library-hero>span {
+  color:var(--text-on-dark); font-size:.88rem; font-weight:900; letter-spacing:.12em; text-transform:uppercase;
+}
+.ui-concept-hero h1,.mui-overview-hero h1,.mui-division-hero h1,.mui-x-detail-hero h1,.ant-enterprise-hero h1,.ds-customization-hero h1,.tailwind-overview-hero h1,.tailwind-library-hero h1 {
+  margin:.3rem 0 .55rem; color:var(--text-on-dark); font:800 clamp(3rem,4.5vw,4.25rem)/1.08 Georgia,"Noto Serif KR",serif; letter-spacing:-.035em;
+}
+.ui-concept-hero p,.mui-overview-hero p,.mui-division-hero p,.mui-x-detail-hero p,.ant-enterprise-hero p,.ds-customization-hero p,.tailwind-overview-hero p,.tailwind-library-hero p {
+  max-width:880px; margin:0 auto; color:var(--text-on-dark-soft); font-size:clamp(1.05rem,1.5vw,1.2rem); font-weight:600; line-height:1.68;
+}
+
+/* Reusable relationship diagrams */
+.ui-concept-flow,.mui-flow,.ds-direct-comparison,.tailwind-overview-demo,.tailwind-library-comparison,.ant-work-compare {
+  display:grid; grid-template-columns:minmax(0,1fr) auto minmax(0,1fr); grid-auto-rows:1fr; gap:.9rem; align-items:stretch;
+}
+.ui-concept-card,.mui-flow-card,.ds-direct-comparison article,.tailwind-overview-demo article,.tailwind-library-comparison article,.ant-work-compare article,
+.mui-card,.mui-division-cards article,.mui-x-table-wrap,.mui-x-capabilities,.ds-customization-card,.ant-concrete-grid article,.ant-validation,.tailwind-overview-tradeoffs article,.tailwind-library-tradeoffs article,.compact-preview,.mini-tradeoffs article {
+  min-width:0; height:100%; padding:1.3rem; border:1px solid var(--border-soft); border-radius:10px; background:var(--ppt-olive); box-shadow:none;
+}
+.ui-concept-card--implementation,.mui-flow-card--result,.ds-direct-comparison-result,.tailwind-overview-result,.accent-card,.ant-work-ready,.mui-card--x,.mui-division-x {
+  border-color:var(--text-on-dark); background:var(--ppt-brown);
+}
+.ui-concept-card--implementation *,.mui-flow-card--result *,.ds-direct-comparison-result>h2,.ds-direct-comparison-result>p,.tailwind-overview-result>h2,.tailwind-overview-result>p,.accent-card>span,.accent-card>h2,.accent-card .card-caption,.ant-work-ready *,.mui-card--x h3,.mui-card--x .mui-card-heading span,.mui-division-x>span,.mui-division-x>h2 { color:var(--text-on-dark); }
+.accent-card .role-rows p,.accent-card .primitive-chips span,.mui-card--x li { border:1px solid var(--text-on-dark); background:transparent; color:var(--text-on-dark); }
+.accent-card .role-rows strong,.accent-card .role-rows span,.mui-card--x li small { color:var(--text-on-dark); }
+.ui-concept-card h2,.mui-flow-card h2,.ds-direct-comparison h2,.tailwind-overview-demo h2,.tailwind-library-comparison h2,.ant-work-compare h2,
+.mui-card h3,.mui-division-cards h2,.mui-x-capabilities h2,.ds-customization-card h2,.ant-concrete-grid h3,.tailwind-overview-tradeoffs h3,.tailwind-library-tradeoffs h3,.compact-preview h3,.mini-tradeoffs h3 {
+  margin:0 0 .55rem; color:var(--text-on-dark); font-size:1.35rem;
+}
+.ui-concept-card p,.mui-flow-card p,.ds-direct-comparison p,.tailwind-overview-demo p,.tailwind-library-comparison p,.ant-work-compare p {
+  margin:.25rem 0; color:var(--text-on-dark); font-size:.95rem; font-weight:500; line-height:1.6;
+}
+.ui-concept-connection,.mui-flow-arrow,.ds-direct-connection,.tailwind-overview-arrow,.comparison-arrow,.ant-compare-arrow {
+  display:flex; min-width:64px; flex-direction:column; align-items:center; justify-content:center; gap:.25rem; color:var(--text-on-dark); text-align:center;
+}
+.ui-concept-connection b,.mui-flow-arrow,.ds-direct-connection b,.tailwind-overview-arrow,.comparison-arrow b,.ant-compare-arrow {
+  font-size:1.8rem; font-weight:900;
+}
+.ui-concept-connection span,.comparison-arrow small { color:var(--text-on-dark); font-size:.82rem; font-weight:800; }
+.ui-concept-parts,.mui-design-rules,.design-chips,.primitive-chips,.foundation-stack { display:flex; flex-wrap:wrap; justify-content:center; gap:.38rem; margin:.7rem 0; }
+.ui-concept-parts span,.ui-concept-parts code,.mui-design-rules span,.design-chips span,.primitive-chips span,.foundation-stack strong {
+  padding:.38rem .65rem; border:1px solid var(--border-soft); border-radius:8px; background:transparent; color:var(--text-on-dark); font-size:.84rem; font-weight:800;
+}
+.ui-concept-parts--code code { background:var(--ppt-brown); color:var(--text-on-dark); }
+.ui-concept-message,.ui-concept-bridge,.mui-overview-desc,.mui-overview-summary,.mui-division-summary,.mui-x-scope-intro,.mui-x-conclusion,.ant-enterprise-intro,.ant-important,.ds-customization-bridge,.tailwind-overview-core,.tailwind-overview-bridge,.tailwind-library-core,.tailwind-library-takeaway,.source-statement,.flow-equation,.class-collapse,.ant-equation {
+  padding:1rem 1.25rem; border:2px solid var(--border-soft); border-radius:10px; background:var(--ppt-brown); color:var(--text-on-dark); text-align:center; font-size:1.08rem; font-weight:750;
+}
+
+/* Code cards: scoped so third-party demos keep their own typography. */
+.mui-code,.ds-direct-comparison pre,.ds-customization-card pre,.tailwind-overview-demo pre,.tailwind-library-comparison pre { font-family:"SFMono-Regular",Consolas,"Liberation Mono",monospace; }
+.mui-code,.ds-direct-comparison pre,.ds-customization-card pre,.tailwind-overview-demo pre,.tailwind-library-comparison pre {
+  width:100%; max-width:100%; margin:.65rem 0 0; padding:1rem; overflow-x:auto; border:1px solid var(--border-soft); border-radius:10px; background:var(--ppt-brown); color:var(--text-on-dark); font-size:.88rem; font-weight:600; line-height:1.65; white-space:pre-wrap; overflow-wrap:normal; word-break:normal;
+}
+.mui-code { position:relative; }
+.mui-code-label,.tailwind-library-comparison article>span,.tailwind-overview-demo article>span,.mui-flow-label { color:var(--text-on-dark); font-size:.8rem; font-weight:900; letter-spacing:.08em; text-transform:uppercase; }
+/* MUI */
+.mui-cards,.mui-division-cards { display:grid; grid-template-columns:repeat(2,minmax(0,1fr)); grid-auto-rows:1fr; gap:.9rem; align-items:stretch; }
+.mui-card-heading { display:flex; align-items:baseline; justify-content:space-between; gap:1rem; }
+.mui-card-heading h3 { margin:0; }
+.mui-card-heading span { color:var(--text-on-dark); font-size:.84rem; font-weight:900; }
+.mui-card ul { display:grid; grid-template-columns:repeat(3,minmax(0,1fr)); gap:.5rem; margin:.8rem 0 0; padding:0; list-style:none; }
+.mui-card li { padding:.42rem; border-radius:8px; background:var(--ppt-surface-soft); color:var(--text-on-dark); font-size:.84rem; font-weight:800; text-align:center; }
+.mui-card li small { display:block; color:var(--text-on-dark); font-size:.88rem; font-weight:600; }
+.mui-division-rows { display:flex; flex-direction:column; gap:.38rem; }
+.mui-division-rows>div { display:grid; grid-template-columns:minmax(90px,auto) minmax(0,1fr) minmax(0,1fr); gap:.6rem; align-items:center; padding:.6rem .7rem; border-radius:8px; background:var(--ppt-olive); }
+.mui-division-rows strong { color:var(--text-on-dark); font-size:.9rem; }
+.mui-division-rows span,.mui-division-rows small { color:var(--text-on-dark); font-size:.8rem; }
+.mui-x-grid-feature { display:grid; grid-template-columns:1.35fr .65fr; gap:.8rem; }
+.mui-x-table-title { display:flex; justify-content:space-between; margin-bottom:.5rem; }
+.mui-x-table-title strong { color:var(--text-on-dark); }
+.mui-x-table-title span { color:var(--text-on-dark); font-size:.88rem; }
+.mui-x-table-wrap { overflow-x:auto; }
+.mui-x-table-wrap table { width:100%; min-width:560px; border-collapse:collapse; border-radius:10px; }
+.mui-x-table-wrap th,.mui-x-table-wrap td { padding:.55rem .65rem; border-bottom:1px solid var(--border-soft); text-align:left; font-size:.84rem; }
+.mui-x-table-wrap th { background:var(--ppt-brown); color:var(--text-on-dark); }
+.mui-x-table-wrap td { background:var(--ppt-olive); }
+.mui-x-capabilities>div { display:grid; grid-template-columns:repeat(2,minmax(0,1fr)); gap:.5rem; }
+.mui-x-capabilities span { padding:.45rem; border-radius:8px; background:var(--ppt-surface-soft); font-size:.82rem; }
+.mui-x-capabilities small { display:block; color:var(--text-on-dark); }
+.mui-x-tools { display:grid; grid-template-columns:repeat(4,minmax(0,1fr)); grid-auto-rows:1fr; gap:.7rem; }
+.mui-x-tools article { padding:.8rem; border-radius:13px; background:var(--ppt-olive); text-align:center; }
+.mui-x-tools h3 { margin:0; color:var(--text-on-dark); font-size:.9rem; }
+.mui-x-tools p { margin:.2rem 0 0; color:var(--text-on-dark); font-size:.85rem; }
+
+/* Ant Design enterprise map */
+.ant-concrete-grid { display:grid; grid-template-columns:repeat(4,minmax(0,1fr)); grid-auto-rows:1fr; gap:.7rem; }
+.ant-concrete-grid article { text-align:center; }
+.ant-concrete-grid strong,.ant-concrete-grid h3 { color:var(--text-on-dark); }
+.ant-concrete-grid p { margin:.25rem 0 0; color:var(--text-on-dark); font-size:.88rem; }
+.ant-equation { display:flex; justify-content:center; align-items:center; gap:.75rem; flex-wrap:wrap; }
+.ant-validation { display:grid; grid-template-columns:repeat(4,minmax(0,1fr)); gap:.6rem; text-align:center; }
+.ant-validation div { padding:.55rem; border-radius:9px; background:var(--ppt-surface-soft); color:var(--text-on-dark); font-size:.84rem; font-weight:800; }
+
+/* Customization */
+.ds-customization-methods { display:grid; grid-template-columns:repeat(3,minmax(0,1fr)); grid-auto-rows:1fr; gap:.9rem; align-items:stretch; }
+.ds-customization-card { display:flex; height:100%; flex-direction:column; gap:.55rem; }
+.ds-customization-card-title { display:flex; justify-content:space-between; align-items:baseline; gap:.5rem; }
+.ds-customization-card-title span { color:var(--text-on-dark); font-size:.82rem; font-weight:900; }
+.ds-customization-card>p,.ds-customization-card>strong { margin:0; color:var(--text-on-dark); font-size:.9rem; }
+.ds-customization-card>strong { margin-top:auto; color:var(--text-on-dark); }
+.ds-customization { gap:.55rem; }
+.ds-customization .ds-customization-hero { padding:1rem 1.5rem; }
+.ds-customization .ds-customization-hero h1 { font-size:clamp(2rem,3vw,2.8rem); }
+.ds-customization .ds-direct-comparison article { padding:.75rem 1rem; }
+.ds-customization .ds-direct-comparison pre { margin-top:.35rem; padding:.5rem .8rem; font-size:.76rem; line-height:1.45; }
+.ds-customization .ds-customization-bridge { padding:.55rem 1rem; font-size:.96rem; }
+.ds-customization .ds-customization-card { padding:.75rem; }
+.ds-customization .ds-customization-card pre { min-height:120px; margin-top:0; padding:.45rem .8rem; font-size:.74rem; line-height:1.45; }
+.ds-customization .customization-live-preview { display:grid; min-height:58px; place-items:center; margin-top:auto; border-radius:10px; background:#f4f6f8; }
+.ds-customization .ds-customization-nav { padding:.5rem .8rem; }
+
+/* Tailwind and primitives */
+.tailwind-overview-tradeoffs,.tailwind-library-tradeoffs { display:grid; grid-template-columns:repeat(2,minmax(0,1fr)); grid-auto-rows:1fr; gap:.8rem; align-items:stretch; }
+.tailwind-overview-tradeoffs ul,.tailwind-library-tradeoffs ul { margin:.35rem 0 0; padding-left:1rem; color:var(--text-on-dark); font-size:.92rem; line-height:1.65; }
+.tailwind-overview-tradeoffs article:first-child,.tailwind-library-tradeoffs article:first-child { border-color:var(--text-on-dark); background:var(--ppt-brown); }
+.tailwind-overview-tradeoffs article:first-child h3,.tailwind-overview-tradeoffs article:first-child ul,.tailwind-library-tradeoffs article:first-child h3,.tailwind-library-tradeoffs article:first-child ul { color:var(--text-on-dark); }
+.tailwind-overview-tradeoffs article:last-child,.tailwind-library-tradeoffs article:last-child { border:2px solid var(--border-soft); background:transparent; }
+.two-part-core,.flow-equation,.class-collapse,.ant-equation { display:flex; align-items:center; justify-content:center; gap:.8rem; }
+.two-part-core p { display:flex; flex-direction:column; margin:0; }
+.two-part-core code,.class-collapse code { padding:.32rem .5rem; border-radius:7px; background:var(--ppt-brown); color:var(--text-on-dark); font-size:.82rem; }
+.role-rows { display:grid; gap:.35rem; }
+.role-rows p { display:grid; grid-template-columns:90px 20px 1fr; align-items:center; padding:.35rem .5rem; border-radius:8px; background:var(--ppt-surface-soft); }
+.role-rows strong { color:var(--text-on-dark); }
+.flow-equation strong { color:var(--text-on-dark); }
+.source-statement strong,.tailwind-library-takeaway strong { color:var(--text-on-dark); }
+/* Contrast contract for reusable slide surfaces. */
+:is(.ui-concept-card,.mui-flow-card,.ds-direct-comparison article,.tailwind-overview-demo article,.tailwind-library-comparison article,.ant-work-compare article,.mui-card,.mui-division-cards article,.mui-x-table-wrap,.mui-x-capabilities,.ds-customization-card,.ant-concrete-grid article,.ant-validation,.tailwind-overview-tradeoffs article,.tailwind-library-tradeoffs article,.compact-preview,.mini-tradeoffs article) { color:var(--text-on-olive); }
+:is(.ui-concept-card,.mui-flow-card,.ds-direct-comparison article,.tailwind-overview-demo article,.tailwind-library-comparison article,.ant-work-compare article,.mui-card,.mui-division-cards article,.mui-x-table-wrap,.mui-x-capabilities,.ds-customization-card,.ant-concrete-grid article,.ant-validation,.tailwind-overview-tradeoffs article,.tailwind-library-tradeoffs article,.compact-preview,.mini-tradeoffs article) :is(h2,h3,p,span,strong,small,li) { color:var(--text-on-olive); }
+:is(.ui-concept-card,.mui-flow-card,.ds-direct-comparison article,.tailwind-overview-demo article,.tailwind-library-comparison article,.ant-work-compare article,.mui-card,.mui-division-cards article,.mui-x-table-wrap,.mui-x-capabilities,.ds-customization-card,.ant-concrete-grid article,.ant-validation,.tailwind-overview-tradeoffs article,.tailwind-library-tradeoffs article,.compact-preview,.mini-tradeoffs article) p { color:var(--text-on-olive-soft); }
+:is(.ui-concept-card--implementation,.mui-flow-card--result,.ds-direct-comparison-result,.tailwind-overview-result,.accent-card,.ant-work-ready,.mui-card--x,.mui-division-x),
+:is(.ui-concept-card--implementation,.mui-flow-card--result,.ds-direct-comparison-result,.tailwind-overview-result,.accent-card,.ant-work-ready,.mui-card--x,.mui-division-x) :is(h2,h3,p,span,strong,small,li) { color:var(--text-on-dark); }
+:is(.ui-concept-card--implementation,.mui-flow-card--result,.ds-direct-comparison-result,.tailwind-overview-result,.accent-card,.ant-work-ready,.mui-card--x,.mui-division-x) p { color:var(--text-on-dark-soft); }
+.mui-division-rows>div,.mui-x-table-wrap td,.mui-x-tools article,.role-rows p { color:var(--text-on-olive); }
+:is(.mui-division-rows>div,.mui-x-table-wrap td,.mui-x-tools article,.role-rows p) :is(h2,h3,p,span,strong,small,li) { color:var(--text-on-olive); }
+.tailwind-overview-tradeoffs article:first-child :is(h3,ul,li),.tailwind-library-tradeoffs article:first-child :is(h3,ul,li) { color:var(--text-on-dark); }
+
+@media (max-width:850px) {
+  .ui-concept-flow,.mui-flow,.ds-direct-comparison,.tailwind-overview-demo,.tailwind-library-comparison,.ant-work-compare,.mui-x-grid-feature { grid-template-columns:1fr; }
+  .ui-concept-connection,.mui-flow-arrow,.ds-direct-connection,.tailwind-overview-arrow,.comparison-arrow,.ant-compare-arrow { min-height:38px; }
+  .ui-concept-connection b,.ds-direct-connection b,.comparison-arrow b { transform:rotate(90deg); }
+  .mui-cards,.mui-division-cards,.ds-customization-methods,.tailwind-overview-tradeoffs,.tailwind-library-tradeoffs,.ant-validation { grid-template-columns:1fr; }
+  .mui-x-tools,.ant-concrete-grid { grid-template-columns:repeat(2,minmax(0,1fr)); }
+}
+@media (max-width:1180px) {
+  .mui-x-tools,.ant-concrete-grid { grid-template-columns:repeat(2,minmax(0,1fr)); }
+  .ds-customization-card pre { min-height:auto; }
+}
+@media (max-width:560px) {
+  .mui-card ul { display:grid; grid-template-columns:1fr; }
+}

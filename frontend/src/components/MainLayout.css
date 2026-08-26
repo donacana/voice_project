@@ -1,102 +1,13 @@
-.main-layout {
-  display: flex;
-  flex-direction: column;
-  min-height: 100vh;
-  background: linear-gradient(135deg, #1a1a2e 0%, #16213e 100%);
-  color: #e0e0e0;
-}
-
-.layout-header {
-  background: rgba(0, 0, 0, 0.5);
-  border-bottom: 2px solid #646cff;
-  padding: 2rem;
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  box-shadow: 0 4px 12px rgba(100, 108, 255, 0.2);
-}
-
-.header-content h1 {
-  margin: 0;
-  font-size: 2.5rem;
-  color: #646cff;
-  font-weight: 700;
-}
-
-.header-content .subtitle {
-  margin: 0.5rem 0 0 0;
-  font-size: 1rem;
-  color: #aaa;
-  font-weight: 300;
-}
-
-.header-status {
-  display: flex;
-  gap: 1rem;
-  align-items: center;
-}
-
-.status-badge {
-  padding: 0.5rem 1rem;
-  background: #4caf50;
-  color: white;
-  border-radius: 20px;
-  font-size: 0.9rem;
-  font-weight: 600;
-  box-shadow: 0 2px 8px rgba(76, 175, 80, 0.3);
-}
-
-/* Mobile Remote status indicator (small, unobtrusive) */
-.mobile-remote-indicator {
-  display: inline-flex;
-  align-items: center;
-  gap: 0.5rem;
-  padding: 0.4rem 0.9rem;
-  border-radius: 20px;
-  font-size: 0.85rem;
-  font-weight: 600;
-  background: rgba(40, 40, 50, 0.8);
-  border: 1px solid #444;
-}
-
-.mobile-remote-dot {
-  width: 10px;
-  height: 10px;
-  border-radius: 50%;
-  flex-shrink: 0;
-}
-
-.mobile-remote-indicator.connected .mobile-remote-dot {
-  background: #4caf50;
-  box-shadow: 0 0 6px rgba(76, 175, 80, 0.6);
-}
-
-.mobile-remote-indicator.connected .mobile-remote-text {
-  color: #4caf50;
-}
-
-.mobile-remote-indicator.offline .mobile-remote-dot {
-  background: #9ca3af;
-}
-
-.mobile-remote-indicator.offline .mobile-remote-text {
-  color: #9ca3af;
-}
-
-.layout-main {
-  flex: 1;
-  padding: 2rem;
-  max-width: 1200px;
-  margin: 0 auto;
-  width: 100%;
-  overflow-y: auto;
-}
-
-.layout-footer {
-  background: rgba(0, 0, 0, 0.5);
-  border-top: 1px solid #444;
-  padding: 1.5rem;
-  text-align: center;
-  color: #888;
-  font-size: 0.9rem;
-}
+.main-layout { min-height:100vh; display:flex; flex-direction:column; color:var(--text-on-dark); background:var(--ppt-brown); }
+.layout-header { position:relative; z-index:10; display:flex; align-items:center; justify-content:space-between; gap:2rem; padding:1rem clamp(1.5rem,4vw,4rem); border-bottom:1px solid var(--border-soft); background:var(--ppt-surface-strong); }
+.header-content h1 { margin:0; color:var(--text-on-dark); font-size:clamp(1.45rem,2vw,1.85rem); line-height:1.1; letter-spacing:-.025em; }
+.header-content .subtitle { margin:.3rem 0 0; color:var(--text-on-dark-soft); font-size:.85rem; font-weight:600; letter-spacing:.06em; text-transform:uppercase; }
+.header-status { display:flex; align-items:center; gap:.6rem; }
+.status-badge,.mobile-remote-indicator { display:inline-flex; align-items:center; gap:.42rem; min-height:32px; padding:.35rem .75rem; border:1px solid var(--border-soft); border-radius:999px; background:var(--ppt-surface-soft); color:var(--text-on-dark); font-size:.8rem; font-weight:800; }
+.mobile-remote-dot { width:8px; height:8px; flex:0 0 auto; border-radius:50%; background:var(--text-on-dark); }
+.mobile-remote-indicator.connected .mobile-remote-dot { box-shadow:0 0 0 3px var(--border-soft); }
+.mobile-remote-indicator .mobile-remote-text { color:var(--text-on-dark); }
+.layout-main { flex:1; width:min(1480px,100%); margin:0 auto; padding:1.1rem clamp(1rem,3vw,2.8rem) 1.6rem; }
+.layout-footer { padding:.55rem 2rem .75rem; color:var(--text-on-dark-soft); text-align:center; font-size:.78rem; font-weight:600; }
+.layout-footer p { margin:0; }
+@media(max-width:720px){.layout-header{align-items:flex-start;padding:.85rem 1rem}.header-content .subtitle{display:none}.header-status{flex-direction:column;align-items:flex-end;gap:.3rem}.status-badge,.mobile-remote-indicator{min-height:28px;padding:.24rem .55rem;font-size:.7rem}.layout-main{padding:.8rem}}

@@ -52,7 +52,7 @@ export function CategoryLecture({ category, onLibrarySelect, onOpenOfficialSite 
             <div className="comparison-teaching">
               <h3>{isCategorySummary ? '핵심 특징' : lib.teaching.title}</h3>
               <ul>
-                {lib.teaching.points.map((point, i) => (
+                {lib.teaching.points.slice(0, 3).map((point, i) => (
                   <li key={i}>{point}</li>
                 ))}
               </ul>

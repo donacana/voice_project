@@ -1,0 +1,739 @@
+/* Library demos intentionally use their own visual language.
+   The surrounding navigation remains Coffee Brown + Olive Green. */
+.demo-main {
+  isolation:isolate;
+}
+
+.demo-main :is(button,input,select,textarea) {
+  font:inherit;
+}
+
+.demo-main button {
+  cursor:pointer;
+}
+
+.demo-main :is(button,input,select,textarea,a):focus-visible {
+  outline:3px solid #2563eb;
+  outline-offset:3px;
+}
+
+.library-demo-slide {
+  display:flex;
+  min-height:min(560px,64vh);
+  flex-direction:column;
+  gap:14px;
+  padding:clamp(18px,2vw,28px);
+  overflow:hidden;
+  border:1px solid #d8dee9;
+  border-radius:20px;
+  background:#f8fafc;
+  color:#172033;
+  box-shadow:0 18px 45px rgba(15,23,42,.12);
+}
+
+.library-demo-header {
+  display:flex;
+  align-items:flex-end;
+  justify-content:space-between;
+  gap:24px;
+  padding-bottom:14px;
+  border-bottom:1px solid #dbe3ee;
+}
+
+.library-demo-header h1 {
+  margin:2px 0 0;
+  color:#111827;
+  font:800 clamp(2.2rem,3.8vw,3.7rem)/1.02 Inter,"Noto Sans KR",sans-serif;
+  letter-spacing:-.045em;
+}
+
+.library-demo-header p {
+  max-width:760px;
+  margin:0;
+  color:#475569;
+  font-size:clamp(.98rem,1.25vw,1.12rem);
+  font-weight:600;
+  line-height:1.55;
+}
+
+.demo-eyebrow {
+  color:#2563eb;
+  font-size:.78rem;
+  font-weight:900;
+  letter-spacing:.12em;
+  text-transform:uppercase;
+}
+
+.demo-thesis {
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  min-height:54px;
+  padding:10px 16px;
+  border-radius:12px;
+  background:#e8eef8;
+  color:#1e3a8a;
+  font-size:1rem;
+  font-weight:800;
+  text-align:center;
+}
+
+.demo-code {
+  width:100%;
+  margin:0;
+  padding:14px 16px;
+  overflow:auto;
+  border-radius:12px;
+  background:#111827;
+  color:#f8fafc;
+  font:600 .84rem/1.55 "SFMono-Regular",Consolas,monospace;
+  white-space:pre-wrap;
+}
+
+.demo-fact-strip {
+  display:grid;
+  grid-template-columns:repeat(2,minmax(0,1fr));
+  gap:10px;
+}
+
+.demo-fact-strip div {
+  padding:11px 14px;
+  border:1px solid #dbe3ee;
+  border-radius:12px;
+  background:#fff;
+  color:#475569;
+  font-size:.88rem;
+  font-weight:600;
+}
+
+.demo-fact-strip strong {
+  display:block;
+  margin-bottom:2px;
+  color:#172033;
+  font-size:.78rem;
+  font-weight:900;
+  letter-spacing:.06em;
+  text-transform:uppercase;
+}
+
+/* MUI keeps the library's Material blue and light application surfaces. */
+.mui-demo-root {
+  border:1px solid #d9e0ea;
+  box-shadow:0 18px 45px rgba(15,23,42,.13);
+}
+
+/* Ant Design keeps its default enterprise blue, status colors and white tables. */
+.ant-demo-surface {
+  min-height:min(660px,72vh);
+  padding:22px;
+  overflow:hidden;
+  border:1px solid #d9d9d9;
+  border-radius:20px;
+  background:#f5f7fa;
+  color:#1f1f1f;
+  box-shadow:0 18px 45px rgba(15,23,42,.12);
+}
+
+.ant-demo-heading {
+  display:flex;
+  align-items:flex-start;
+  justify-content:space-between;
+  gap:20px;
+  margin-bottom:14px;
+}
+
+.ant-demo-heading p {
+  max-width:620px;
+  margin:5px 0 0;
+  color:#595959;
+  font-weight:500;
+}
+
+.ant-demo-surface .ant-table-wrapper {
+  overflow-x:auto;
+}
+
+.ant-demo-surface .ant-table {
+  min-width:720px;
+}
+
+.ant-user-cell {
+  display:grid;
+  line-height:1.25;
+}
+
+.ant-user-cell small {
+  color:#8c8c8c;
+}
+
+.ant-demo-caption {
+  margin-top:12px;
+  padding:10px 14px;
+  border-left:4px solid #1677ff;
+  border-radius:8px;
+  background:#e6f4ff;
+  color:#15395b;
+  font-weight:650;
+}
+
+/* Chakra demo is a light playground; styled props remain visibly teal/blue. */
+.chakra-demo-surface {
+  min-height:min(620px,70vh);
+  border:1px solid #d8dee9;
+  border-radius:20px;
+  box-shadow:0 18px 45px rgba(15,23,42,.12);
+}
+
+.chakra-demo-grid {
+  display:grid;
+  grid-template-columns:repeat(2,minmax(0,1fr));
+  gap:16px;
+}
+
+.chakra-demo-card {
+  display:grid;
+  grid-template-rows:auto 1fr;
+  gap:12px;
+  padding:18px;
+  border:1px solid #d7dee8;
+  border-radius:16px;
+  background:#fff;
+}
+
+.chakra-demo-code {
+  margin:0;
+  padding:14px;
+  overflow-x:auto;
+  border-radius:12px;
+  background:#1a202c;
+  color:#edf2f7;
+  font:600 .84rem/1.55 "SFMono-Regular",Consolas,monospace;
+  white-space:pre-wrap;
+}
+
+.chakra-demo-result {
+  display:grid;
+  min-height:120px;
+  place-items:center;
+  border-radius:12px;
+  background:#edf2f7;
+}
+
+/* Tailwind foundation slide: utilities visibly produce a composed blue UI. */
+.tailwind-build-preview {
+  display:grid;
+  min-height:100%;
+  place-items:center;
+  padding:18px;
+  border-radius:12px;
+  background:#e2e8f0;
+}
+
+.tw-workspace-card {
+  width:min(310px,100%);
+  padding:20px;
+  border:1px solid #e5e7eb;
+  border-radius:16px;
+  background:#fff;
+  color:#111827;
+  box-shadow:0 10px 24px rgba(15,23,42,.12);
+}
+
+.tailwind-overview .tailwind-overview-result .tw-workspace-card span {
+  display:inline-flex;
+  padding:4px 9px;
+  border-radius:999px;
+  background:#dbeafe;
+  color:#1d4ed8;
+  font-size:.72rem;
+  font-weight:800;
+}
+
+.tailwind-overview .tailwind-overview-result .tw-workspace-card h3 {
+  margin:12px 0 4px;
+  color:#111827;
+  font-size:1.2rem;
+}
+
+.tailwind-overview .tailwind-overview-result .tw-workspace-card p {
+  margin:0 0 16px;
+  color:#64748b;
+  font-size:.9rem;
+}
+
+.tw-primary-button,.daisy-visual-button {
+  display:inline-flex;
+  align-items:center;
+  justify-content:center;
+  min-height:42px;
+  padding:9px 16px;
+  border:0;
+  border-radius:8px;
+  background:#3b82f6;
+  color:#fff;
+  font-weight:800;
+  box-shadow:0 6px 14px rgba(37,99,235,.2);
+}
+
+/* daisyUI: long utilities and semantic classes produce the same result. */
+.daisy-comparison-grid {
+  display:grid;
+  grid-template-columns:repeat(2,minmax(0,1fr));
+  gap:14px;
+}
+
+.daisy-code-card {
+  display:flex;
+  min-width:0;
+  flex-direction:column;
+  gap:10px;
+  padding:16px;
+  border:1px solid #dbe3ee;
+  border-radius:16px;
+  background:#fff;
+}
+
+.daisy-code-card h2 {
+  margin:0;
+  color:#172033;
+  font-size:1.15rem;
+}
+
+.daisy-code-card p {
+  margin:0;
+  color:#64748b;
+  font-size:.86rem;
+}
+
+.daisy-result {
+  display:grid;
+  min-height:84px;
+  place-items:center;
+  border-radius:12px;
+  background:#eff6ff;
+}
+
+/* React Aria exposes accessibility behavior before any interaction. */
+.aria-feature-grid {
+  display:grid;
+  grid-template-columns:repeat(4,minmax(0,1fr));
+  gap:10px;
+}
+
+.aria-feature-tile {
+  padding:12px;
+  border-top:4px solid #7c3aed;
+  border-radius:10px;
+  background:#fff;
+  box-shadow:0 5px 14px rgba(15,23,42,.07);
+}
+
+.aria-feature-tile strong {
+  display:block;
+  color:#4c1d95;
+  font-size:.86rem;
+}
+
+.aria-feature-tile span {
+  color:#64748b;
+  font-size:.78rem;
+  font-weight:600;
+}
+
+.aria-demo-body {
+  display:grid;
+  grid-template-columns:minmax(0,.8fr) minmax(0,1.2fr);
+  gap:14px;
+}
+
+.aria-foundation-card,.aria-live-card {
+  padding:16px;
+  border:1px solid #dbe3ee;
+  border-radius:16px;
+  background:#fff;
+}
+
+.aria-foundation-card h2,.aria-live-card h2 {
+  margin:0 0 8px;
+  color:#172033;
+  font-size:1.1rem;
+}
+
+.aria-behavior-list {
+  display:grid;
+  gap:7px;
+  margin:0;
+  padding:0;
+  list-style:none;
+}
+
+.aria-behavior-list li {
+  display:flex;
+  justify-content:space-between;
+  gap:12px;
+  padding:8px 10px;
+  border-radius:8px;
+  background:#f3e8ff;
+  color:#4c1d95;
+  font-size:.84rem;
+  font-weight:700;
+}
+
+.aria-live-tabs {
+  display:grid;
+  grid-template-columns:repeat(4,minmax(0,1fr));
+  gap:8px;
+}
+
+.aria-live-tabs button {
+  min-height:42px;
+  border:1px solid #cbd5e1;
+  border-radius:9px;
+  background:#fff;
+  color:#334155;
+  font-weight:750;
+}
+
+.aria-live-tabs button.selected {
+  border-color:#7c3aed;
+  background:#7c3aed;
+  color:#fff;
+}
+
+.aria-live-tabs button.focus-visible {
+  outline:3px solid #c4b5fd;
+  outline-offset:2px;
+}
+
+.aria-selected-result {
+  margin:14px 0 0;
+  padding:10px;
+  border-radius:9px;
+  background:#f5f3ff;
+  color:#5b21b6;
+  font-weight:800;
+  text-align:center;
+}
+
+/* Radix: unstyled primitive and custom visual layer stay visible together. */
+.radix-flow-grid {
+  display:grid;
+  grid-template-columns:minmax(0,.72fr) 48px minmax(0,1.28fr);
+  gap:12px;
+  align-items:stretch;
+}
+
+.radix-stage {
+  padding:16px;
+  border:1px solid #dbe3ee;
+  border-radius:16px;
+  background:#fff;
+}
+
+.radix-stage h2 {
+  margin:0 0 4px;
+  color:#172033;
+  font-size:1.08rem;
+}
+
+.radix-stage>p {
+  margin:0 0 12px;
+  color:#64748b;
+  font-size:.84rem;
+}
+
+.radix-flow-arrow {
+  display:grid;
+  place-items:center;
+  color:#e11d48;
+  font-size:2rem;
+  font-weight:900;
+}
+
+.radix-basic-preview {
+  display:grid;
+  min-height:150px;
+  place-items:center;
+  border:1px dashed #94a3b8;
+  border-radius:10px;
+  background:#f8fafc;
+}
+
+.radix-basic-preview button {
+  padding:5px 10px;
+}
+
+.radix-styled-dialog {
+  padding:16px;
+  border-radius:14px;
+  background:#18181b;
+  color:#fafafa;
+  box-shadow:0 16px 34px rgba(15,23,42,.24);
+}
+
+.radix-styled-dialog strong {
+  display:block;
+  font-size:1.05rem;
+}
+
+.radix-styled-dialog p {
+  margin:5px 0 14px;
+  color:#d4d4d8;
+  font-size:.84rem;
+}
+
+.radix-dialog-trigger {
+  min-height:40px;
+  padding:8px 14px;
+  border:0;
+  border-radius:9px;
+  background:#e11d48;
+  color:#fff;
+  font-weight:800;
+}
+
+.radix-behavior-strip {
+  display:flex;
+  flex-wrap:wrap;
+  gap:8px;
+}
+
+.radix-behavior-strip span {
+  padding:7px 10px;
+  border-radius:999px;
+  background:#ffe4e6;
+  color:#9f1239;
+  font-size:.78rem;
+  font-weight:800;
+}
+
+.radix-overlay {
+  position:fixed;
+  inset:0;
+  z-index:100;
+  background:rgba(15,23,42,.64);
+}
+
+.radix-dialog-content {
+  position:fixed;
+  top:50%;
+  left:50%;
+  z-index:101;
+  width:min(420px,calc(100vw - 32px));
+  padding:24px;
+  border-radius:16px;
+  background:#18181b;
+  color:#fafafa;
+  box-shadow:0 24px 70px rgba(0,0,0,.4);
+  transform:translate(-50%,-50%);
+}
+
+.radix-dialog-content h2 {
+  margin:0 0 6px;
+}
+
+.radix-dialog-content p {
+  margin:0 0 18px;
+  color:#d4d4d8;
+}
+
+.radix-dialog-close {
+  min-height:40px;
+  padding:8px 14px;
+  border:0;
+  border-radius:9px;
+  background:#e11d48;
+  color:#fff;
+  font-weight:800;
+}
+
+/* Base UI: one accessible behavior foundation, three styling choices. */
+.base-foundation-strip {
+  display:grid;
+  grid-template-columns:repeat(3,minmax(0,1fr));
+  gap:10px;
+}
+
+.base-foundation-strip div {
+  padding:10px;
+  border-radius:10px;
+  background:#e0f2fe;
+  color:#0c4a6e;
+  font-size:.84rem;
+  font-weight:800;
+  text-align:center;
+}
+
+.base-style-grid {
+  display:grid;
+  grid-template-columns:repeat(3,minmax(0,1fr));
+  gap:14px;
+}
+
+.base-style-card {
+  display:flex;
+  flex-direction:column;
+  gap:10px;
+  padding:16px;
+  border:1px solid #dbe3ee;
+  border-radius:16px;
+  background:#fff;
+}
+
+.base-style-card h2 {
+  margin:0;
+  color:#172033;
+  font-size:1.05rem;
+}
+
+.base-style-card code {
+  min-height:44px;
+  color:#475569;
+  font:600 .76rem/1.45 "SFMono-Regular",Consolas,monospace;
+}
+
+.base-style-result {
+  display:grid;
+  min-height:92px;
+  place-items:center;
+  margin-top:auto;
+  border-radius:10px;
+  background:#f1f5f9;
+}
+
+.base-tailwind-button {
+  min-height:42px;
+  padding:9px 16px;
+  border:0;
+  border-radius:8px;
+  background:#2563eb;
+  color:#fff;
+  font-weight:800;
+}
+
+.base-css-button {
+  min-height:42px;
+  padding:9px 16px;
+  border:2px solid #0f766e;
+  border-radius:4px;
+  background:#fff;
+  color:#0f766e;
+  font-weight:800;
+}
+
+.base-css-in-js-button {
+  min-height:42px;
+  padding:9px 18px;
+  border:0;
+  border-radius:999px;
+  background:#7c3aed;
+  color:#fff;
+  font-weight:800;
+  box-shadow:0 8px 18px rgba(124,58,237,.2);
+}
+
+/* Mantine is presented as the single-library all-in-one category. */
+.mantine-category-slide {
+  display:flex;
+  min-height:min(650px,72vh);
+  flex-direction:column;
+  gap:16px;
+  padding:clamp(20px,2.6vw,36px);
+  border:1px solid var(--border-soft);
+  border-radius:18px;
+  background:var(--ppt-olive);
+  color:var(--text-on-olive);
+  box-shadow:var(--ppt-shadow);
+}
+
+.mantine-category-header {
+  text-align:center;
+}
+
+.mantine-category-header span {
+  color:var(--text-on-olive-soft);
+  font-size:.8rem;
+  font-weight:900;
+  letter-spacing:.12em;
+  text-transform:uppercase;
+}
+
+.mantine-category-header h1 {
+  margin:2px 0 4px;
+  color:var(--text-on-olive);
+  font:800 clamp(2.7rem,4vw,4rem)/1.05 Georgia,"Noto Serif KR",serif;
+}
+
+.mantine-category-header p {
+  margin:0;
+  color:var(--text-on-olive-soft);
+  font-size:1.05rem;
+  font-weight:650;
+}
+
+.mantine-pillar-grid {
+  display:grid;
+  grid-template-columns:repeat(3,minmax(0,1fr));
+  gap:14px;
+  flex:1;
+}
+
+.mantine-pillar {
+  padding:20px;
+  border:1px solid var(--border-on-olive);
+  border-radius:14px;
+  background:var(--ppt-brown);
+  color:var(--text-on-dark);
+}
+
+.mantine-pillar-number {
+  display:grid;
+  width:34px;
+  height:34px;
+  place-items:center;
+  border-radius:50%;
+  background:var(--ppt-olive);
+  color:var(--text-on-olive);
+  font-weight:900;
+}
+
+.mantine-pillar h2 {
+  margin:10px 0 8px;
+  color:var(--text-on-dark);
+  font-size:1.35rem;
+}
+
+.mantine-pillar ul {
+  display:grid;
+  gap:8px;
+  margin:0;
+  padding-left:18px;
+  color:var(--text-on-dark-soft);
+  font-size:.95rem;
+  line-height:1.5;
+}
+
+.mantine-takeaway {
+  padding:14px 18px;
+  border:2px solid var(--text-on-olive);
+  border-radius:12px;
+  background:transparent;
+  color:var(--text-on-olive);
+  font-size:1.06rem;
+  font-weight:800;
+  text-align:center;
+}
+
+@media (max-width:900px) {
+  .library-demo-header { align-items:flex-start; flex-direction:column; gap:6px; }
+  .chakra-demo-grid,.daisy-comparison-grid,.aria-demo-body,.base-style-grid,.mantine-pillar-grid { grid-template-columns:1fr; }
+  .aria-feature-grid,.base-foundation-strip { grid-template-columns:repeat(2,minmax(0,1fr)); }
+  .radix-flow-grid { grid-template-columns:1fr; }
+  .radix-flow-arrow { min-height:36px; transform:rotate(90deg); }
+}
+
+@media (max-width:560px) {
+  .demo-fact-strip,.aria-feature-grid,.base-foundation-strip { grid-template-columns:1fr; }
+  .aria-live-tabs { grid-template-columns:repeat(2,minmax(0,1fr)); }
+  .ant-demo-surface { padding:14px; }
+}
